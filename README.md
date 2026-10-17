@@ -4,7 +4,7 @@
 
 `Spring Boot` · `Kafka` · `PostgreSQL` · `Docker` · `Kubernetes (AKS)` · `Azure` · `Terraform`
 
-> 🚧 Projet en cours de développement
+> 🚧 Projet en cours de développement module full stack
 
 ---
 
