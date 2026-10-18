@@ -1,0 +1,182 @@
+```html
+<header class="topbar">
+  <div class="container topbar__inner">
+    <span class="brand">{{ r.name }}</span>
+
+    <nav class="nav" aria-label="التنقل فالموقع">
+      <a href="#about" (click)="scrollTo($event, 'about')">شكون حنا</a>
+      <a href="#menu" (click)="scrollTo($event, 'menu')">المنيو</a>
+      <a href="#infos" (click)="scrollTo($event, 'infos')">معلومات علينا</a>
+    </nav>
+
+    <a class="btn btn--primary btn--sm" [href]="r.phoneHref">
+      حجز بلاصتك
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <h1>{{ r.name }}</h1>
+        <p class="hero__tagline">{{ r.tagline }}</p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" [href]="r.phoneHref">
+            عيط لينا وحجز بلاصتك
+          </a>
+
+          <a class="btn btn--ghost" href="#menu"
+             (click)="scrollTo($event, 'menu')">
+            شوف المنيو
+          </a>
+        </div>
+      </div>
+
+      <dl class="facts">
+        <div class="facts__row">
+          <dt>التقييم</dt>
+          <dd>{{ ratingLabel }} على 5، من أصل {{ r.reviewCount }} تقييم</dd>
+        </div>
+
+        <div class="facts__row">
+          <dt>نوع الماكلة</dt>
+          <dd>{{ r.cuisines.join('، ') }}</dd>
+        </div>
+
+        <div class="facts__row">
+          <dt>الثمن</dt>
+          <dd>{{ r.priceRange }}</dd>
+        </div>
+
+        <div class="facts__row">
+          <dt>توقيت اليوم</dt>
+          <dd>{{ r.hours[today].hours }}</dd>
+        </div>
+
+        <div class="facts__row">
+          <dt>العنوان</dt>
+          <dd>{{ r.address }}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="about" class="section">
+    <div class="container split">
+      <div>
+        <h2>مرحبا بيكم عندنا</h2>
+        <p class="prose">{{ r.about }}</p>
+      </div>
+
+      <div>
+        <h3 class="subhead">شنو كنوفرّو ليكم</h3>
+        <ul class="features">
+          @for (feature of r.features; track feature) {
+            <li>{{ feature }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu" class="section section--tint">
+    <div class="container">
+      <h2>المنيو ديالنا</h2>
+
+      <div class="tabs" role="tablist" aria-label="أصناف الماكلة">
+        @for (category of r.menu; track category.id) {
+          <button
+            type="button"
+            role="tab"
+            class="tab"
+            [class.tab--active]="category.id === activeCategory()"
+            [attr.aria-selected]="category.id === activeCategory()"
+            (click)="selectCategory(category.id)"
+          >
+            {{ category.label }}
+          </button>
+        }
+      </div>
+
+      <ul class="menu" role="tabpanel">
+        @for (item of activeItems(); track item.name) {
+          <li class="menu-item">
+            <div class="menu-item__head">
+              <h3>{{ item.name }}</h3>
+
+              @if (item.prices; as prices) {
+                <span class="leader" aria-hidden="true"></span>
+
+                <span class="prices">
+                  @for (p of prices; track $index) {
+                    <span class="price">
+                      @if (p.label) {
+                        <span class="price__label">{{ p.label }}</span>
+                      }
+                      {{ formatPrice(p.amount) }}
+                    </span>
+                  }
+                </span>
+              }
+            </div>
+
+            @if (item.description) {
+              <p class="menu-item__desc">{{ item.description }}</p>
+            }
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section id="infos" class="section">
+    <div class="container split">
+      <div>
+        <h2>أوقات الخدمة</h2>
+
+        <table class="hours">
+          <tbody>
+            @for (h of r.hours; track h.day; let i = $index) {
+              <tr [class.hours__today]="i === today">
+                <th scope="row">{{ h.day }}</th>
+                <td>{{ h.hours }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h2>فين كاينين؟</h2>
+
+        <address class="contact">
+          <p>{{ r.address }}</p>
+          <p><a [href]="r.phoneHref">{{ r.phone }}</a></p>
+          <p><a [href]="'mailto:' + r.email">{{ r.email }}</a></p>
+        </address>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" [href]="r.phoneHref">
+            حجز بلاصتك بالتليفون
+          </a>
+
+          <a class="btn btn--ghost"
+             [href]="r.mapUrl"
+             target="_blank"
+             rel="noopener">
+            كيفاش توصل لينا
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p>مرحبا بيكم عندنا، الماكلة المغربية بنينة والضيافة من القلب. بالصحة والراحة!</p>
+  </div>
+</footer>
+```
