@@ -12,5 +12,6 @@
             "username": "quikorder",
             "password": "quikorder"
         }
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

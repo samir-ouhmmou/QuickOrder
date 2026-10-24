@@ -5,25 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Entity
-@Table(name = "table_restaurant")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class TableRestaurant {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private int numero;
-    private int capacite;
-
-    @Enumerated(EnumType.STRING)
+    private int capacite ;
+    @Enumerated(value = EnumType.STRING)
     private Etat etat;
-
-    @OneToMany(mappedBy = "tableRestaurant")
     private List<Commande> commandes;
 }
