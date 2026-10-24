@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+<<<<<<< HEAD
+=======
+import java.util.List;
+
+@Entity
+>>>>>>> Taoufik
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +25,12 @@ public class Utilisateur {
     @Enumerated(value = EnumType.STRING)
     private Role role;
     private Boolean actif;
+<<<<<<< HEAD
+=======
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Commande> commandes;
+    @OneToMany(mappedBy = "utilisateur")
+    private List<MouvementStock> mouvementStocks;
+
+>>>>>>> Taoufik
 }

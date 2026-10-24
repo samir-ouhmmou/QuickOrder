@@ -1,11 +1,24 @@
 package QuickOrder.Restauration.Model;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
+=======
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+>>>>>>> Taoufik
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+<<<<<<< HEAD
 @Table(name = "paiement")
+=======
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> Taoufik
 public class Paiement {
 
     @Id
@@ -28,11 +41,16 @@ public class Paiement {
 
     private String reference;
 
+<<<<<<< HEAD
     // Commande 1 ---- 0..* Paiement
+=======
+
+>>>>>>> Taoufik
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "commande_id", nullable = false)
     private Commande commande;
 
+<<<<<<< HEAD
     public Paiement() {
     }
 
@@ -72,4 +90,7 @@ public class Paiement {
 
     public Commande getCommande() { return commande; }
     public void setCommande(Commande commande) { this.commande = commande; }
+=======
+
+>>>>>>> Taoufik
 }

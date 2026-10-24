@@ -1,11 +1,29 @@
 package QuickOrder.Restauration.Model;
 
+<<<<<<< HEAD
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
  * Modèle représentant un Plat selon le diagramme de classes.
  */
+=======
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> Taoufik
 public class Plat {
 
     private Long id;
@@ -13,6 +31,7 @@ public class Plat {
     private String description;
     private BigDecimal prix;
     private Boolean disponible;
+<<<<<<< HEAD
 
     // Association: Categorie (1) contient (0..*) Plat
     private Long categorieId;
@@ -121,4 +140,13 @@ public class Plat {
                 ", categorieId=" + categorieId +
                 '}';
     }
+=======
+    @OneToMany(mappedBy = "plat")
+    private List<LigneCommande> ligneCommandes;
+    @ManyToOne
+    @JoinColumn(name = "plat")
+    private Categorie categorie;
+    @OneToMany(mappedBy = "plat")
+    private List<RecetteIngredient> recetteIngredients;
+>>>>>>> Taoufik
 }

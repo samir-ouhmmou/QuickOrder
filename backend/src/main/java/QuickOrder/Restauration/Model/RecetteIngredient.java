@@ -1,6 +1,7 @@
 package QuickOrder.Restauration.Model;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import java.math.BigDecimal;
 
 @Entity
@@ -8,6 +9,18 @@ import java.math.BigDecimal;
     name = "recette_ingredient",
     uniqueConstraints = @UniqueConstraint(columnNames = {"plat_id", "ingredient_id"})
 )
+=======
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> Taoufik
 public class RecetteIngredient {
 
     @Id
@@ -17,16 +30,25 @@ public class RecetteIngredient {
     @Column(nullable = false, precision = 10, scale = 3)
     private BigDecimal quantiteNecessaire;
 
+<<<<<<< HEAD
     // Plat 1 ---- 0..* RecetteIngredient
+=======
+
+>>>>>>> Taoufik
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "plat_id", nullable = false)
     private Plat plat;
 
+<<<<<<< HEAD
     // Ingredient 1 ---- 0..* RecetteIngredient
+=======
+
+>>>>>>> Taoufik
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ingredient_id", nullable = false)
     private Ingredient ingredient;
 
+<<<<<<< HEAD
     public RecetteIngredient() {
     }
 
@@ -43,4 +65,9 @@ public class RecetteIngredient {
 
     public Ingredient getIngredient() { return ingredient; }
     public void setIngredient(Ingredient ingredient) { this.ingredient = ingredient; }
+=======
+
+
+
+>>>>>>> Taoufik
 }

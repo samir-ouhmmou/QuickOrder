@@ -5,9 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+<<<<<<< HEAD
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+=======
+import java.util.List;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> Taoufik
 public class TableRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,5 +25,11 @@ public class TableRestaurant {
     private int capacite ;
     @Enumerated(value = EnumType.STRING)
     private Etat etat;
+<<<<<<< HEAD
     private List<Commande> commandes;
+=======
+    @OneToMany(mappedBy = "tableRestaurant")
+    private List<Commande> commandes;
+
+>>>>>>> Taoufik
 }

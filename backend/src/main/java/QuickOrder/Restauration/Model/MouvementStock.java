@@ -1,5 +1,6 @@
 package QuickOrder.Restauration.Model;
 
+<<<<<<< HEAD
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -7,6 +8,22 @@ import java.util.Objects;
 /**
  * Modèle représentant un Mouvement de Stock selon le diagramme de classes.
  */
+=======
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Objects;
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> Taoufik
 public class MouvementStock {
 
     private Long id;
@@ -14,6 +31,7 @@ public class MouvementStock {
     private TypeMouvement type;
     private BigDecimal quantite;
     private String motif;
+<<<<<<< HEAD
 
     // Association: Ingredient (1) historique (0..*) MouvementStock
     private Long ingredientId;
@@ -126,4 +144,14 @@ public class MouvementStock {
                 ", utilisateurId=" + utilisateurId +
                 '}';
     }
+=======
+    private Long ingredientId;
+    private Long utilisateurId;
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
+    @ManyToOne
+    @JoinColumn(name = "ingredient")
+        private Ingredient ingredient;
+>>>>>>> Taoufik
 }

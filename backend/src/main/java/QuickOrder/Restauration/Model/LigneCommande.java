@@ -1,10 +1,23 @@
 package QuickOrder.Restauration.Model;
 
 import jakarta.persistence.*;
+<<<<<<< HEAD
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "ligne_commande")
+=======
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+>>>>>>> Taoufik
 public class LigneCommande {
 
     @Id
@@ -19,17 +32,25 @@ public class LigneCommande {
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal sousTotal;
+<<<<<<< HEAD
 
     // Commande 1 <>---- 1..* LigneCommande (composition)
+=======
+>>>>>>> Taoufik
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "commande_id", nullable = false)
     private Commande commande;
 
+<<<<<<< HEAD
     // Plat 1 ---- 0..* LigneCommande
+=======
+
+>>>>>>> Taoufik
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "plat_id", nullable = false)
     private Plat plat;
 
+<<<<<<< HEAD
     public LigneCommande() {
     }
 
@@ -76,4 +97,6 @@ public class LigneCommande {
 
     public Plat getPlat() { return plat; }
     public void setPlat(Plat plat) { this.plat = plat; }
+=======
+>>>>>>> Taoufik
 }
