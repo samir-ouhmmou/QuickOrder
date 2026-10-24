@@ -16,4 +16,5 @@ public class TableRestaurant {
     private int capacite ;
     @Enumerated(value = EnumType.STRING)
     private Etat etat;
+    private List<Commande> commandes;
 }
