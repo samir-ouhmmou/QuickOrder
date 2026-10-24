@@ -1,33 +1,23 @@
 package QuickOrder.Restauration.Model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-
 @Entity
-@Table(name = "categorie")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Categorie {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String nom;
     private String description;
-
-    private Boolean active;
-
-
-    private Boolean disponible;
-     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-
+    private Boolean Active;
     @OneToMany(mappedBy = "categorie")
     private List<Plat> plats;
+
 }
