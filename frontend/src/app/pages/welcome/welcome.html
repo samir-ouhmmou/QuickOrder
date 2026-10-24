@@ -1,0 +1,25 @@
+<section class="catalogue" id="catalogue" #catalogue [class.visible]="visible()">
+  <div class="catalogue-header">
+    <p class="eyebrow">La carte</p>
+    <h2>Nos spécialités</h2>
+  </div>
+
+  <div class="grid">
+    @for (plat of plats; track plat.name; let i = $index) {
+      <article class="plat" [style.transition-delay.ms]="i * 150">
+        <div class="plat-image">
+          <img [src]="plat.image" [alt]="plat.name" loading="lazy" />
+        </div>
+        <div class="plat-body">
+          <h3>{{ plat.name }}</h3>
+          <p>{{ plat.description }}</p>
+          <span class="price">{{ plat.price }} MAD</span>
+        </div>
+      </article>
+    }
+  </div>
+
+  <div class="catalogue-footer">
+    <a routerLink="/" class="btn btn-primary">Retour à l'accueil</a>
+  </div>
+</section>
