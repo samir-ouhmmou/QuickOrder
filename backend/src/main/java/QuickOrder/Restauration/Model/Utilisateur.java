@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +22,9 @@ public class Utilisateur {
     @Enumerated(value = EnumType.STRING)
     private Role role;
     private Boolean actif;
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Commande> commandes;
+    @OneToMany(mappedBy = "utilisateur")
+    private List<MouvementStock> mouvementStocks;
+
 }
