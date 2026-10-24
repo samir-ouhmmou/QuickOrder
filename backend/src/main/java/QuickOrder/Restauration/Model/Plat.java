@@ -1,152 +1,65 @@
 package QuickOrder.Restauration.Model;
 
-<<<<<<< HEAD
-import java.math.BigDecimal;
-import java.util.Objects;
-
-/**
- * Modèle représentant un Plat selon le diagramme de classes.
- */
-=======
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
+
 @Entity
+@Table(name = "plat")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
->>>>>>> Taoufik
 public class Plat {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nom;
     private String description;
     private BigDecimal prix;
-    private Boolean disponible;
-<<<<<<< HEAD
 
-    // Association: Categorie (1) contient (0..*) Plat
-    private Long categorieId;
-    // private Categorie categorie; // À décommenter lors de la fusion avec le modèle Categorie
+    private Boolean disponible = true;
 
-    // Constructeurs
-    public Plat() {
-        this.disponible = true;
-    }
+    @ManyToOne
+    @JoinColumn(name = "categorie_id")
+    private Categorie categorie;
 
-    public Plat(Long id, String nom, String description, BigDecimal prix, Boolean disponible) {
-        this.id = id;
-        this.nom = nom;
-        this.description = description;
-        this.prix = prix;
-        this.disponible = disponible;
-    }
+    @OneToMany(mappedBy = "plat")
+    private List<LigneCommande> ligneCommandes;
 
-    // Méthodes métier du diagramme UML
+    @OneToMany(mappedBy = "plat")
+    private List<RecetteIngredient> recetteIngredients;
+
     public void modifierPrix() {
-        // Méthode sans paramètre définie dans le diagramme
+        // Méthode métier à compléter si nécessaire.
     }
 
     public void modifierPrix(BigDecimal nouveauPrix) {
-        this.prix = nouveauPrix;
+        if (nouveauPrix == null || nouveauPrix.signum() < 0) {
+            throw new IllegalArgumentException(
+                    "Le prix ne peut pas être négatif ou nul"
+            );
+        }
+        prix = nouveauPrix;
     }
 
     public void changerDisponibilite() {
-        this.disponible = (this.disponible == null) ? true : !this.disponible;
+        disponible = disponible == null || !disponible;
     }
 
     public void changerDisponibilite(Boolean disponible) {
         this.disponible = disponible;
     }
 
-    // Getters et Setters
-    public Long getId() {
-        return id;
+    @PrePersist
+    public void initialiser() {
+        if (disponible == null) {
+            disponible = true;
+        }
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getPrix() {
-        return prix;
-    }
-
-    public void setPrix(BigDecimal prix) {
-        this.prix = prix;
-    }
-
-    public Boolean getDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(Boolean disponible) {
-        this.disponible = disponible;
-    }
-
-    public Long getCategorieId() {
-        return categorieId;
-    }
-
-    public void setCategorieId(Long categorieId) {
-        this.categorieId = categorieId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Plat plat = (Plat) o;
-        return Objects.equals(id, plat.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Plat{" +
-                "id=" + id +
-                ", nom='" + nom + '\'' +
-                ", description='" + description + '\'' +
-                ", prix=" + prix +
-                ", disponible=" + disponible +
-                ", categorieId=" + categorieId +
-                '}';
-    }
-=======
-    @OneToMany(mappedBy = "plat")
-    private List<LigneCommande> ligneCommandes;
-    @ManyToOne
-    @JoinColumn(name = "plat")
-    private Categorie categorie;
-    @OneToMany(mappedBy = "plat")
-    private List<RecetteIngredient> recetteIngredients;
->>>>>>> Taoufik
 }

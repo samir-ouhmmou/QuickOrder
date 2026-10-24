@@ -5,32 +5,32 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
 
 @Entity
->>>>>>> Taoufik
+@Table(name = "utilisateur")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Utilisateur {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nom;
     private String prenom;
     private String email;
     private String motDepass;
-    @Enumerated(value = EnumType.STRING)
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
     private Boolean actif;
-<<<<<<< HEAD
-=======
+
     @OneToMany(mappedBy = "utilisateur")
     private List<Commande> commandes;
+
     @OneToMany(mappedBy = "utilisateur")
     private List<MouvementStock> mouvementStocks;
-
->>>>>>> Taoufik
 }

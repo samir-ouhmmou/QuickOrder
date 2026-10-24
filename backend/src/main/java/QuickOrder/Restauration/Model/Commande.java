@@ -1,18 +1,6 @@
 package QuickOrder.Restauration.Model;
 
-<<<<<<< HEAD
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Objects;
-
-/**
- * Modèle représentant une Commande selon le diagramme de classes.
- */
-=======
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,61 +8,72 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
+@Table(name = "commande")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
->>>>>>> Taoufik
+@AllArgsConstructor
 public class Commande {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDateTime dateCreation;
+
+    @Enumerated(EnumType.STRING)
     private EtatCommande etat;
+
     private BigDecimal montantTotal;
     private String commentaire;
-<<<<<<< HEAD
 
-    // Association: TableRestaurant (1) accueille (0..*) Commande
-    private Long tableRestaurantId;
-    // private TableRestaurant tableRestaurant; // À décommenter lors de la fusion avec le modèle TableRestaurant
+    @ManyToOne
+    @JoinColumn(name = "table_restaurant_id")
+    private TableRestaurant tableRestaurant;
 
-    // Association: Utilisateur (1) crée (0..*) Commande
-    private Long utilisateurId;
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id")
+    private Utilisateur utilisateur;
 
-    // Constructeurs
-    public Commande() {
-        this.dateCreation = LocalDateTime.now();
-        this.etat = EtatCommande.EN_ATTENTE;
-        this.montantTotal = BigDecimal.ZERO;
+    @OneToMany(mappedBy = "commande")
+    private List<Paiement> paiements;
+
+    @OneToMany(mappedBy = "commande")
+    private List<LigneCommande> ligneCommandes;
+
+    @PrePersist
+    public void initialiser() {
+        if (dateCreation == null) {
+            dateCreation = LocalDateTime.now();
+        }
+        if (etat == null) {
+            etat = EtatCommande.EN_ATTENTE;
+        }
+        if (montantTotal == null) {
+            montantTotal = BigDecimal.ZERO;
+        }
     }
 
-    public Commande(Long id, LocalDateTime dateCreation, EtatCommande etat, BigDecimal montantTotal, String commentaire) {
-        this.id = id;
-        this.dateCreation = dateCreation != null ? dateCreation : LocalDateTime.now();
-        this.etat = etat != null ? etat : EtatCommande.EN_ATTENTE;
-        this.montantTotal = montantTotal != null ? montantTotal : BigDecimal.ZERO;
-        this.commentaire = commentaire;
-    }
-
-    // Méthodes métier du diagramme UML
     public void ajouterPlat() {
-        // Méthode sans paramètre définie dans le diagramme
+        // Méthode métier à compléter si nécessaire.
     }
 
     public void ajouterPlat(Plat plat) {
         if (plat != null && plat.getPrix() != null) {
-            this.montantTotal = this.montantTotal.add(plat.getPrix());
+            if (montantTotal == null) {
+                montantTotal = BigDecimal.ZERO;
+            }
+            montantTotal = montantTotal.add(plat.getPrix());
         }
     }
 
     public BigDecimal calculerTotal() {
-        return this.montantTotal != null ? this.montantTotal : BigDecimal.ZERO;
+        return montantTotal != null ? montantTotal : BigDecimal.ZERO;
     }
 
     public void changerEtat() {
-        // Méthode sans paramètre définie dans le diagramme
+        // Méthode métier à compléter si nécessaire.
     }
 
     public void changerEtat(EtatCommande nouvelEtat) {
@@ -84,100 +83,4 @@ public class Commande {
     public void annuler() {
         this.etat = EtatCommande.ANNULEE;
     }
-
-    // Getters et Setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getDateCreation() {
-        return dateCreation;
-    }
-
-    public void setDateCreation(LocalDateTime dateCreation) {
-        this.dateCreation = dateCreation;
-    }
-
-    public EtatCommande getEtat() {
-        return etat;
-    }
-
-    public void setEtat(EtatCommande etat) {
-        this.etat = etat;
-    }
-
-    public BigDecimal getMontantTotal() {
-        return montantTotal;
-    }
-
-    public void setMontantTotal(BigDecimal montantTotal) {
-        this.montantTotal = montantTotal;
-    }
-
-    public String getCommentaire() {
-        return commentaire;
-    }
-
-    public void setCommentaire(String commentaire) {
-        this.commentaire = commentaire;
-    }
-
-    public Long getTableRestaurantId() {
-        return tableRestaurantId;
-    }
-
-    public void setTableRestaurantId(Long tableRestaurantId) {
-        this.tableRestaurantId = tableRestaurantId;
-    }
-
-    public Long getUtilisateurId() {
-        return utilisateurId;
-    }
-
-    public void setUtilisateurId(Long utilisateurId) {
-        this.utilisateurId = utilisateurId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Commande commande = (Commande) o;
-        return Objects.equals(id, commande.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "Commande{" +
-                "id=" + id +
-                ", dateCreation=" + dateCreation +
-                ", etat=" + etat +
-                ", montantTotal=" + montantTotal +
-                ", commentaire='" + commentaire + '\'' +
-                ", tableRestaurantId=" + tableRestaurantId +
-                ", utilisateurId=" + utilisateurId +
-                '}';
-    }
-=======
-    @ManyToOne
-    @JoinColumn(name = "tablerestaurant_id")
-    private  TableRestaurant tableRestaurant;
-    @ManyToOne
-    @JoinColumn(name = "Utilisateur_id")
-    private Utilisateur utilisateur;
-    @OneToMany(mappedBy = "commande")
-    private List<Paiement> paiements;
-    @OneToMany(mappedBy = "commande")
-    private List<LigneCommande> ligneCommandes;
-
->>>>>>> Taoufik
 }
