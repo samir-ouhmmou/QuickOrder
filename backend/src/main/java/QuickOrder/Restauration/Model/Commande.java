@@ -42,4 +42,45 @@ public class Commande {
     @OneToMany(mappedBy = "commande")
     private List<LigneCommande> ligneCommandes;
 
+    @PrePersist
+    public void initialiser() {
+        if (dateCreation == null) {
+            dateCreation = LocalDateTime.now();
+        }
+        if (etat == null) {
+            etat = EtatCommande.EN_ATTENTE;
+        }
+        if (montantTotal == null) {
+            montantTotal = BigDecimal.ZERO;
+        }
+    }
+
+    public void ajouterPlat() {
+        // Méthode métier à compléter si nécessaire.
+    }
+
+    public void ajouterPlat(Plat plat) {
+        if (plat != null && plat.getPrix() != null) {
+            if (montantTotal == null) {
+                montantTotal = BigDecimal.ZERO;
+            }
+            montantTotal = montantTotal.add(plat.getPrix());
+        }
+    }
+
+    public BigDecimal calculerTotal() {
+        return montantTotal != null ? montantTotal : BigDecimal.ZERO;
+    }
+
+    public void changerEtat() {
+        // Méthode métier à compléter si nécessaire.
+    }
+
+    public void changerEtat(EtatCommande nouvelEtat) {
+        this.etat = nouvelEtat;
+    }
+
+    public void annuler() {
+        this.etat = EtatCommande.ANNULEE;
+    }
 }

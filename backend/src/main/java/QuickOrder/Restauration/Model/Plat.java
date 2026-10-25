@@ -35,5 +35,31 @@ public class Plat {
     @OneToMany(mappedBy = "plat")
     private List<RecetteIngredient> recetteIngredients;
 
+    public void modifierPrix() {
+        // Méthode métier à compléter si nécessaire.
+    }
 
+    public void modifierPrix(BigDecimal nouveauPrix) {
+        if (nouveauPrix == null || nouveauPrix.signum() < 0) {
+            throw new IllegalArgumentException(
+                    "Le prix ne peut pas être négatif ou nul"
+            );
+        }
+        prix = nouveauPrix;
+    }
+
+    public void changerDisponibilite() {
+        disponible = disponible == null || !disponible;
+    }
+
+    public void changerDisponibilite(Boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    @PrePersist
+    public void initialiser() {
+        if (disponible == null) {
+            disponible = true;
+        }
+    }
 }

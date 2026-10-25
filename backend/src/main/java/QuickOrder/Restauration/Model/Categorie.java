@@ -20,7 +20,7 @@ public class Categorie {
 
     private String nom;
     private String description;
-    private Boolean disponible;
+    private Boolean active;
 
     @OneToMany(mappedBy = "categorie")
     private List<Plat> plats;

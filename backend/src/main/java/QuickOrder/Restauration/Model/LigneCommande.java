@@ -35,4 +35,31 @@ public class LigneCommande {
     @JoinColumn(name = "plat_id", nullable = false)
     private Plat plat;
 
+    public BigDecimal calculerSousTotal() {
+        if (prixUnitaire == null || quantite == null) {
+            sousTotal = BigDecimal.ZERO;
+        } else {
+            sousTotal = prixUnitaire.multiply(
+                    BigDecimal.valueOf(quantite)
+            );
+        }
+        return sousTotal;
+    }
+
+    public void modifierQuantite(Integer nouvelleQuantite) {
+        if (nouvelleQuantite == null || nouvelleQuantite <= 0) {
+            throw new IllegalArgumentException(
+                    "La quantité doit être supérieure à 0"
+            );
+        }
+
+        quantite = nouvelleQuantite;
+        calculerSousTotal();
+    }
+
+    @PrePersist
+    @PreUpdate
+    private void avantSauvegarde() {
+        calculerSousTotal();
+    }
 }
