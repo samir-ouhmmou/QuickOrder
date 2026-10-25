@@ -1,0 +1,40 @@
+<header class="topbar">
+  <div class="topbar-inner">
+    <a routerLink="/" class="back">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+      Accueil
+    </a>
+    <div class="logo">Jardin Doré</div>
+    <div class="right">
+      <a routerLink="/panier" class="cart">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
+        Panier
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <section class="hero">
+    <p class="eyebrow">La carte</p>
+    <h1>Nos spécialités</h1>
+    <p class="subtitle">Choisissez une catégorie, puis une sous-catégorie, pour découvrir chaque plat.</p>
+  </section>
+
+  <section id="catalogue" class="grid">
+    @for (c of categories; track c.title) {
+      <a class="card" [routerLink]="c.link">
+        <div class="card-img">
+          <img [src]="c.image" [alt]="c.title" loading="lazy" />
+          <span class="badge">{{ c.count }} plats</span>
+        </div>
+        <div class="card-body">
+          <h3>{{ c.title }}</h3>
+          <span class="arrow">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </span>
+        </div>
+      </a>
+    }
+  </section>
+</main>
