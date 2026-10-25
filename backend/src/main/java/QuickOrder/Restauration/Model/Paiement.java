@@ -39,28 +39,4 @@ public class Paiement {
     @JoinColumn(name = "commande_id", nullable = false)
     private Commande commande;
 
-    public void enregistrer() {
-        datePaiement = LocalDateTime.now();
-        etat = EtatPaiement.ACCEPTE;
-    }
-
-    public void rembourser() {
-        if (etat != EtatPaiement.ACCEPTE) {
-            throw new IllegalStateException(
-                    "Seul un paiement accepté peut être remboursé"
-            );
-        }
-
-        etat = EtatPaiement.REMBOURSE;
-    }
-
-    @PrePersist
-    public void initialiser() {
-        if (datePaiement == null) {
-            datePaiement = LocalDateTime.now();
-        }
-        if (etat == null) {
-            etat = EtatPaiement.EN_ATTENTE;
-        }
-    }
 }

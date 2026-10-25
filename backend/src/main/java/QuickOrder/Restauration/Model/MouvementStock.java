@@ -35,19 +35,4 @@ public class MouvementStock {
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
-    @PrePersist
-    public void initialiser() {
-        if (dateMouvement == null) {
-            dateMouvement = LocalDateTime.now();
-        }
-        if (quantite == null) {
-            quantite = BigDecimal.ZERO;
-        }
-    }
-
-    public void enregistrer() {
-        if (dateMouvement == null) {
-            dateMouvement = LocalDateTime.now();
-        }
-    }
 }
