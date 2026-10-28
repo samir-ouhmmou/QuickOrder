@@ -1,0 +1,25 @@
+<section class="chefs" id="chefs">
+  <div class="container">
+    <header class="chefs__header">
+      <h2 class="chefs__title">Meet Our <span>Chefs</span></h2>
+      <p class="chefs__subtitle">
+        The passion and expertise behind every dish we bring to your table.
+      </p>
+    </header>
+
+    <div class="chefs__grid">
+      @for (chef of chefs; track chef.name) {
+        <article class="chef-card">
+          <div class="chef-card__photo">
+            <img [src]="chef.photo" [alt]="chef.name" loading="lazy" />
+          </div>
+          <div class="chef-card__body">
+            <h3 class="chef-card__name">{{ chef.name }}</h3>
+            <p class="chef-card__role">{{ chef.role }}</p>
+            <p class="chef-card__bio">{{ chef.bio }}</p>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
