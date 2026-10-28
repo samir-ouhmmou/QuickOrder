@@ -1,3 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-primary: #d9824b;
+  --color-accent: #b5402f;
+  --color-accent-dark: #962f21;
+  --color-light: #ffffff;
+  --color-dark: #1a1410;
+  --font-title: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+  --radius: 6px;
+}
 
-@import 'tailwindcss';
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-light);
+  background: var(--color-dark);
+  line-height: 1.5;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  width: min(1200px, 100% - 3rem);
+  margin-inline: auto;
+}
+
+/* Boutons globaux */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary { background: var(--color-primary); color: var(--color-light); }
+.btn-primary:hover { background: #c4713d; }
+
+.btn-light { background: var(--color-light); color: var(--color-accent); }
+.btn-light:hover { background: #f3e9e2; }
+
+.btn-accent { background: var(--color-accent); color: var(--color-light); }
+.btn-accent:hover { background: var(--color-accent-dark); }
