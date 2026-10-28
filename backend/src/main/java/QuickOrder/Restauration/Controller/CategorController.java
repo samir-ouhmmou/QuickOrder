@@ -1,7 +1,7 @@
 package QuickOrder.Restauration.Controller;
 
-import QuickOrder.Restauration.Model.Categorie;
-import QuickOrder.Restauration.Services.dashBoardImpli;
+import QuickOrder.Restauration.Dto.CategoryDto;
+import QuickOrder.Restauration.Services.CategorieService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +16,11 @@ import java.util.List;
 @CrossOrigin("*")
 @AllArgsConstructor
 public class CategorController {
-    private dashBoardImpli dashBoardImpli;
-    @GetMapping("/category")
-    public List<Categorie> getCategory(){
-        List<Categorie> categories=new ArrayList<>();
-        categories=dashBoardImpli.getCategories();
+    private CategorieService CategorieService;
+    @GetMapping("/")
+    public List<CategoryDto> getCategory(){
+        List<CategoryDto> categories=new ArrayList<>();
+        categories= CategorieService.getCategories();
         return categories;
     }
 }
