@@ -18,23 +18,35 @@
   <section class="hero">
     <p class="eyebrow">La carte</p>
     <h1>Nos spécialités</h1>
-    <p class="subtitle">Choisissez une catégorie, puis une sous-catégorie, pour découvrir chaque plat.</p>
+    <p class="subtitle">Découvrez nos catégories et le nombre de plats proposés.</p>
   </section>
 
-  <section id="catalogue" class="grid">
-    @for (c of categories; track c.title) {
-      <a class="card" [routerLink]="c.link">
-        <div class="card-img">
-          <img [src]="c.image" [alt]="c.title" loading="lazy" />
-          <span class="badge">{{ c.count }} plats</span>
-        </div>
-        <div class="card-body">
-          <h3>{{ c.title }}</h3>
-          <span class="arrow">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </span>
-        </div>
-      </a>
+  <section id="catalogue" class="grid" aria-live="polite">
+    @if (loading()) {
+      <p class="status">Chargement des catégories...</p>
+    } @else if (errorMessage()) {
+      <p class="status error" role="alert">{{ errorMessage() }}</p>
+    } @else if (categories().length === 0) {
+      <p class="status">Aucune catégorie n'est disponible pour le moment.</p>
+    } @else {
+      @for (category of categories(); track category.id) {
+        <article class="card">
+          <div class="card-img">
+            <img [src]="category.image" [alt]="category.title" loading="lazy" />
+            <span class="badge">
+              {{ category.count }} plat{{ category.count === 1 ? '' : 's' }}
+            </span>
+          </div>
+          <div class="card-body">
+            <div>
+              <h3>{{ category.title }}</h3>
+              @if (category.description) {
+                <p class="description">{{ category.description }}</p>
+              }
+            </div>
+          </div>
+        </article>
+      }
     }
   </section>
 </main>

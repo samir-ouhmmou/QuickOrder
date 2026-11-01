@@ -12,6 +12,6 @@ private Long id;
 private String nom;
 private String description;
 private Boolean active;
-private Boolean disponibilté;
+private Boolean disponible;
 private Long nombresPlats;
 }

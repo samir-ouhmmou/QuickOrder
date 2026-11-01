@@ -65,6 +65,13 @@ h1 {
   grid-template-columns: repeat(3, 1fr);
   gap: 26px;
 }
+.status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+}
+.error { color: #a12622; }
 .card {
   display: block;
   background: var(--card);
@@ -104,6 +111,11 @@ h1 {
   font-family: 'Outfit', sans-serif;
   color: var(--green);
   font-size: 17px; font-weight: 600;
+}
+.description {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
 }
 .arrow {
   width: 32px; height: 32px; flex-shrink: 0;
