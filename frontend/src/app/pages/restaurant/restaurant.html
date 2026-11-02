@@ -1,0 +1,70 @@
+<main class="reservation-page">
+  <section class="reservation container">
+    <a class="reservation__back" routerLink="/">← Back to home</a>
+    <div class="reservation__layout">
+      <div class="reservation__intro">
+        <p class="eyebrow">A table is waiting</p>
+        <h1>Reserve your <span>table</span></h1>
+        <p>
+          Join us for authentic Moroccan flavours, warm hospitality and a meal made to be shared.
+        </p>
+        <div class="reservation__note">
+          <strong>Planning a visit?</strong>
+          <p>Choose your preferred date, time and party size. We look forward to welcoming you.</p>
+        </div>
+      </div>
+
+      <form class="reservation-form" #tableForm="ngForm" (ngSubmit)="submitReservation()">
+        <h2>Your reservation</h2>
+        <p class="reservation-form__lead">All fields marked with * are required.</p>
+
+        <div class="reservation-form__grid">
+          <label>
+            Name *
+            <input name="name" type="text" autocomplete="name" required ngModel />
+          </label>
+          <label>
+            Phone number *
+            <input name="phone" type="tel" autocomplete="tel" required ngModel />
+          </label>
+          <label>
+            Date *
+            <input name="date" type="date" required ngModel />
+          </label>
+          <label>
+            Time *
+            <select name="time" required ngModel>
+              <option value="" disabled>Select a time</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="13:00">1:00 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="19:00">7:00 PM</option>
+              <option value="20:00">8:00 PM</option>
+              <option value="21:00">9:00 PM</option>
+            </select>
+          </label>
+          <label>
+            Number of guests *
+            <input name="guests" type="number" min="1" max="20" required ngModel />
+          </label>
+          <label class="reservation-form__full">
+            Special requests
+            <textarea name="details" rows="3" placeholder="Optional" ngModel></textarea>
+          </label>
+        </div>
+
+        <button class="btn btn-primary reservation-form__submit" type="submit" [disabled]="tableForm.invalid">
+          Reserve a table
+        </button>
+        <p class="reservation-form__disclaimer">
+          Frontend preview only: your reservation is not sent or saved.
+        </p>
+        @if (reservationPrepared()) {
+          <p class="reservation-form__confirmation" role="status">
+            Your table details are ready. Please contact the restaurant to confirm your reservation.
+          </p>
+        }
+      </form>
+    </div>
+  </section>
+</main>
