@@ -22,9 +22,9 @@ export class Chefs {
     },
     {
       name: 'Chef Athmane Mezine',
-      role: 'Pastry & Catering Chef',
-      bio: 'Salma brings elegance to every event, from refined pastillas to delicate Moroccan pastries. Her passion is to blend authentic ingredients with a modern presentation for unforgettable celebrations.',
-      photo: '/images/samirxtaoufik.jpg',
+      role: 'Pizzas Chef',
+      bio: 'Athman brings elegance to every event, from refined pastillas to delicate Moroccan pastries. Her passion is to blend authentic ingredients with a modern presentation for unforgettable celebrations.',
+      photo: '/images/athman.jpg',
     },
   ];
 }
