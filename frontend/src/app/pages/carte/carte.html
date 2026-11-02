@@ -30,7 +30,11 @@
       <p class="status">Aucune catégorie n'est disponible pour le moment.</p>
     } @else {
       @for (category of categories(); track category.id) {
-        <article class="card">
+        <a
+          class="card"
+          [routerLink]="['/plats', category.id]"
+          [queryParams]="{ category: category.title }"
+        >
           <div class="card-img">
             <img [src]="category.image" [alt]="category.title" loading="lazy" />
             <span class="badge">
@@ -45,7 +49,7 @@
               }
             </div>
           </div>
-        </article>
+        </a>
       }
     }
   </section>
