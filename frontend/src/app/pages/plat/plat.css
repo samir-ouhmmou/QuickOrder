@@ -1,0 +1,96 @@
+:host {
+  --fond: #f3eed8;
+  --vert: #1a4a2e;
+  --or: #d9a85a;
+  --brun: #b07a2c;
+  display: block;
+  min-height: 100vh;
+  background: var(--fond);
+  color: var(--vert);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 12px 0;
+  font-size: 12px;
+  font-weight: 700;
+}
+.topbar a { color: var(--vert); text-decoration: none; }
+.logo { color: var(--brun); letter-spacing: 0.1em; }
+.panier-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 2px solid #ecd2a0;
+  border-radius: 999px;
+}
+.badge {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--vert);
+  color: #fff;
+  font-size: 10px;
+  display: grid;
+  place-items: center;
+}
+
+.contenu { max-width: 640px; margin: 0 auto; }
+.categorie {
+  margin: 24px 0 4px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--brun);
+}
+h1 { margin: 0 0 24px; text-align: center; font-size: 28px; }
+
+.grille { display: flex; flex-wrap: wrap; gap: 16px; }
+.status { width: 100%; text-align: center; font-size: 13px; }
+.error { color: #a12b2b; }
+
+.carte {
+  width: 196px;
+  background: #fffdf5;
+  border-radius: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+}
+.carte img { width: 100%; height: 127px; object-fit: cover; display: block; }
+.corps { padding: 14px 12px 12px; }
+.ligne { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+h2 { margin: 0; font-size: 13px; }
+.prix { font-size: 11px; font-weight: 700; color: var(--brun); white-space: nowrap; }
+.corps p { margin: 8px 0 12px; font-size: 9px; line-height: 1.4; color: #7a5a2a; }
+.corps .indisponible { margin-bottom: 0; font-weight: 700; color: #a12b2b; }
+
+.btn-ajout {
+  width: 100%;
+  padding: 8px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--or);
+  color: var(--vert);
+  font-size: 9px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.actions { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+.btn-outline, .btn-plein {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--vert);
+}
+.btn-outline { border: 2px solid #ecd2a0; }
+.btn-plein { background: var(--or); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
