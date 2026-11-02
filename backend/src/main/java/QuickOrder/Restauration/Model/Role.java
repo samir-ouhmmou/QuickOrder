@@ -1,9 +1,10 @@
 package QuickOrder.Restauration.Model;
 
 public enum Role {
-    Admin,
+    ADMIN,
     GERANT,
     SERVEUR,
     CUISINIER,
-    CAISSIER
+    CAISSIER,
+    CLIENT
 }
