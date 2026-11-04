@@ -1,8 +1,98 @@
 <app-hero />
-<app-chefs />
 
-<section id="about" class="placeholder"><div class="container"><h2>About</h2></div></section>
-<section id="services" class="placeholder"><div class="container"><h2>Services</h2></div></section>
-<section id="gallery" class="placeholder"><div class="container"><h2>Gallery</h2></div></section>
-<section id="testimonials" class="placeholder"><div class="container"><h2>Testimonials</h2></div></section>
-<section id="contact" class="placeholder"><div class="container"><h2>Contact</h2></div></section>
+<main>
+  <section id="about" class="about section-space">
+    <div class="container about__layout">
+      <div class="about__image">
+        <img src="/images/plats/tajine.png" alt="A traditional Moroccan tajine" loading="lazy" />
+        <span class="about__image-caption">A taste of Morocco</span>
+      </div>
+      <div class="about__content">
+        <p class="eyebrow">Our story</p>
+        <h2 class="section-title">A little taste of <span>Morocco</span></h2>
+        <p>
+          At Dar Dmana, food is how we bring people together. We celebrate the generous
+          flavours, colourful traditions and warm hospitality at the heart of Moroccan cooking.
+        </p>
+        <p>
+          From slow-cooked tajines to festive couscous, each menu is prepared with care for
+          your gathering and the people around your table.
+        </p>
+        <a class="text-link" routerLink="/carte">Discover our menus <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="services section-space">
+    <div class="container">
+      <header class="section-heading">
+        <p class="eyebrow">Made for sharing</p>
+        <h2 class="section-title">A table for <span>every occasion</span></h2>
+        <p>Thoughtful catering inspired by the richness of Moroccan hospitality.</p>
+      </header>
+      <div class="services__grid">
+        @for (service of services; track service.number) {
+          <article class="service-card">
+            <span class="service-card__number">{{ service.number }}</span>
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+            <a routerLink="/restaurant" class="text-link">Reserve a table <span aria-hidden="true">→</span></a>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <app-chefs />
+
+  <section id="gallery" class="gallery section-space">
+    <div class="container">
+      <header class="section-heading">
+        <p class="eyebrow">From our kitchen</p>
+        <h2 class="section-title">A feast for <span>the senses</span></h2>
+        <p>A glimpse of the colours and flavours waiting at your table.</p>
+      </header>
+      <div class="gallery__grid">
+        @for (image of gallery; track image.src) {
+          <figure class="gallery-card">
+            <img [src]="image.src" [alt]="image.alt" loading="lazy" />
+            <figcaption>{{ image.title }}</figcaption>
+          </figure>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="testimonials section-space">
+    <div class="container">
+      <header class="section-heading">
+        <p class="eyebrow">Gather around</p>
+        <h2 class="section-title">Made to be <span>remembered</span></h2>
+        <p>Good food turns a gathering into a moment worth sharing.</p>
+      </header>
+      <div class="testimonials__grid">
+        @for (testimonial of testimonials; track testimonial.occasion) {
+          <article class="quote-card">
+            <span class="quote-card__mark" aria-hidden="true">“</span>
+            <blockquote>{{ testimonial.quote }}</blockquote>
+            <p>{{ testimonial.occasion }}</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact section-space">
+    <div class="container contact__inner">
+      <div>
+        <p class="eyebrow">Let's get together</p>
+        <h2 class="section-title">Your next gathering starts <span>at the table.</span></h2>
+        <p>Choose a date and time, and join us for a menu made for sharing.</p>
+      </div>
+      <div class="contact__actions">
+        <a class="btn btn-primary" routerLink="/restaurant">Reserve a table</a>
+        <a class="btn btn-light" routerLink="/carte">Explore the menus</a>
+      </div>
+    </div>
+  </section>
+</main>
