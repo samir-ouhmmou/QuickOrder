@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CategoryDto, CategoryService } from '../../services/category.service';
 
 interface CategoryCard {
@@ -11,6 +12,7 @@ interface CategoryCard {
 
 @Component({
   selector: 'app-carte',
+  imports: [RouterLink],
   standalone: true,
   templateUrl: './carte.html',
   styleUrl: './carte.css',

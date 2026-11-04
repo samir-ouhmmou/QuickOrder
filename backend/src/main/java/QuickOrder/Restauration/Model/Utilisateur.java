@@ -20,8 +20,10 @@ public class Utilisateur {
 
     private String nom;
     private String prenom;
+    @Column(nullable = false,unique = true)
     private String email;
-    private String motDepass;
+    @Column(nullable = false)
+    private String motDePass;
 
     @Enumerated(EnumType.STRING)
     private Role role;
