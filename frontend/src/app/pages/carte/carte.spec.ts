@@ -26,14 +26,14 @@ describe('Carte', () => {
 
   it('should create', () => {
     fixture.detectChanges();
-    httpMock.expectOne('http://localhost:8081/api/category/').flush([]);
+    httpMock.expectOne('http://localhost:8081/api/category').flush([]);
 
     expect(component).toBeTruthy();
   });
 
   it('loads category cards from the backend DTO', async () => {
     fixture.detectChanges();
-    httpMock.expectOne('http://localhost:8081/api/category/').flush([
+    httpMock.expectOne('http://localhost:8081/api/category').flush([
       {
         id: 7,
         nom: 'Tajines',
@@ -55,7 +55,7 @@ describe('Carte', () => {
 
   it('shows an error when the categories cannot be loaded', async () => {
     fixture.detectChanges();
-    httpMock.expectOne('http://localhost:8081/api/category/').error(new ProgressEvent('error'));
+    httpMock.expectOne('http://localhost:8081/api/category').error(new ProgressEvent('error'));
     await fixture.whenStable();
     expect(component.errorMessage()).toBeTruthy();
     fixture.detectChanges();
