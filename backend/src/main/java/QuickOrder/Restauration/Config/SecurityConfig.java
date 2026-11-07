@@ -32,12 +32,11 @@ public class SecurityConfig {
                 .csrf(csrf->csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth->auth
+                .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/category", "/api/plats").permitAll()
                                 .anyRequest().authenticated()
-
-                        )
+                )
                 .formLogin(form->form.disable())
                 .httpBasic(basic->basic.disable())
                 .addFilterBefore(jwtAuthentificationFilter, UsernamePasswordAuthenticationFilter.class);

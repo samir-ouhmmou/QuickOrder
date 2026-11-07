@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { API_BASE_URL } from '../core/api';
+import { API_BASE_URL } from '../../core/api';
 
 export interface LoginResponse {
   token: string;

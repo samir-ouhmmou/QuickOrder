@@ -3,21 +3,18 @@ import { Component, inject, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  ReactiveFormsModule,
   Validators,
-  ReactiveFormsModule
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Auth } from '../../services/auth';
+import { Auth } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink
-  ],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
   private readonly auth = inject(Auth);
@@ -33,43 +30,29 @@ export class Login {
   roles = [
     { value: 'CLIENT', label: 'Client' },
     { value: 'SERVEUR', label: 'Serveur' },
-    { value: 'ADMIN', label: 'Admin' }
+    { value: 'ADMIN', label: 'Admin' },
   ];
 
   constructor(private fb: FormBuilder) {
-
     this.form = this.fb.group({
       role: ['CLIENT', Validators.required],
-
-      email: ['', [
-        Validators.required,
-        Validators.email
-      ]],
-
-      password: ['', [
-        Validators.required,
-        Validators.minLength(6)
-      ]],
-
-      remember: [false]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      remember: [false],
     });
-
   }
 
   invalid(field: string): boolean {
     const control = this.form.get(field);
 
-    return !!control &&
-      control.invalid &&
-      (control.dirty || control.touched);
+    return !!control && control.invalid && (control.dirty || control.touched);
   }
 
   togglePassword(): void {
-    this.showPassword.update(value => !value);
+    this.showPassword.update((value) => !value);
   }
 
-  submit(): void {
-
+  onSubmit(): void {
     this.message.set(null);
 
     if (this.form.invalid) {
@@ -89,9 +72,10 @@ export class Login {
         this.loading.set(false);
         this.message.set({
           ok: false,
-          text: error.status === 0
-            ? 'Le serveur est inaccessible. Vérifiez que le backend est démarré.'
-            : 'Connexion impossible. Vérifiez vos identifiants et réessayez.',
+          text:
+            error.status === 0
+              ? 'Le serveur est inaccessible. Vérifiez que le backend est démarré.'
+              : 'Connexion impossible. Vérifiez vos identifiants et réessayez.',
         });
       },
     });
