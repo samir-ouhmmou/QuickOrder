@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../core/api';
 
 export interface CategoryDto {
   id: number;
@@ -14,7 +15,7 @@ export interface CategoryDto {
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8081/api/category/';
+  private readonly apiUrl = `${API_BASE_URL}/category`;
 
   getCategories(): Observable<CategoryDto[]> {
     return this.http.get<CategoryDto[]>(this.apiUrl);
