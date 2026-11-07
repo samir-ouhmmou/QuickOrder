@@ -78,3 +78,15 @@ Les pipelines **GitHub Actions** et **Jenkins** automatisent l'ensemble de la ch
 **CI/CD & qualité** : GitHub Actions, Jenkins, JUnit, Testcontainers, SonarQube, Trivy, DockerHub
 **Supervision** : Prometheus, Grafana
 **Gestion de projet** : Jira, Scrum, GitFlow
+
+## 🔌 Connexion du frontend au backend
+
+En développement, le frontend Angular utilise l'API Spring Boot à `http://localhost:8081/api`.
+Démarrez PostgreSQL et le backend (port `8081`), puis le frontend (`npm start`, port `4200`).
+Le backend doit disposer de `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` et d'un `JWT_SECRET` Base64
+valide; `CORS_ALLOWED_ORIGINS` permet de remplacer les origines Angular autorisées par défaut
+(`http://localhost:4200,http://127.0.0.1:4200`).
+
+La consultation des catégories et des plats est publique. La connexion se fait par
+`POST /api/auth/login`; les requêtes vers les autres endpoints transmettent ensuite le jeton
+JWT dans l'en-tête `Authorization: Bearer ...`.

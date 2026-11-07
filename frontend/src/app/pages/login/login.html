@@ -13,15 +13,15 @@
         <legend class="role__legend">Type de compte</legend>
         <div class="role__options">
           <label class="role__option">
-            <input type="radio" formControlName="role" value="client" />
+            <input type="radio" formControlName="role" value="CLIENT" />
             <span>Client</span>
           </label>
           <label class="role__option">
-            <input type="radio" formControlName="role" value="serveur" />
+            <input type="radio" formControlName="role" value="SERVEUR" />
             <span>Serveur</span>
           </label>
           <label class="role__option">
-            <input type="radio" formControlName="role" value="admin" />
+            <input type="radio" formControlName="role" value="ADMIN" />
             <span>Admin</span>
           </label>
         </div>
@@ -36,9 +36,9 @@
         <label class="field__label" for="password">Mot de passe</label>
         <div class="field__group">
           <input class="field__input" id="password" formControlName="password"
-                 [type]="showPassword ? 'text' : 'password'" autocomplete="current-password" />
-          <button class="field__toggle" type="button" (click)="showPassword = !showPassword">
-            {{ showPassword ? 'Masquer' : 'Afficher' }}
+                 [type]="showPassword() ? 'text' : 'password'" autocomplete="current-password" />
+          <button class="field__toggle" type="button" (click)="togglePassword()">
+            {{ showPassword() ? 'Masquer' : 'Afficher' }}
           </button>
         </div>
       </div>

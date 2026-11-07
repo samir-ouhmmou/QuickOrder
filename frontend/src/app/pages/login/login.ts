@@ -1,6 +1,13 @@
-import { Component, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +17,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './login.css',
 })
 export class Login {
+  private readonly auth = inject(Auth);
+  private readonly router = inject(Router);
+
   form: FormGroup;
 
   loading = signal(false);
@@ -26,11 +36,8 @@ export class Login {
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       role: ['CLIENT', Validators.required],
-
       email: ['', [Validators.required, Validators.email]],
-
       password: ['', [Validators.required, Validators.minLength(6)]],
-
       remember: [false],
     });
   }
@@ -45,7 +52,7 @@ export class Login {
     this.showPassword.update((value) => !value);
   }
 
-  submit(): void {
+  onSubmit(): void {
     this.message.set(null);
 
     if (this.form.invalid) {
@@ -53,8 +60,24 @@ export class Login {
       return;
     }
 
-    console.log('Données du formulaire :', this.form.value);
-
-    // La connexion à Spring Boot sera ajoutée ici.
+    const { email, password, remember } = this.form.getRawValue();
+    this.loading.set(true);
+    this.auth.login(email, password, remember).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.message.set({ ok: true, text: 'Connexion réussie.' });
+        void this.router.navigateByUrl('/');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading.set(false);
+        this.message.set({
+          ok: false,
+          text:
+            error.status === 0
+              ? 'Le serveur est inaccessible. Vérifiez que le backend est démarré.'
+              : 'Connexion impossible. Vérifiez vos identifiants et réessayez.',
+        });
+      },
+    });
   }
 }
