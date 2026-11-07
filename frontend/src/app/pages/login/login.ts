@@ -1,71 +1,40 @@
-import { Component, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    RouterLink
-  ],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrl: './login.css',
 })
 export class Login {
+  private readonly fb = inject(FormBuilder);
+  private readonly auth = inject(Auth);
+  private readonly router = inject(Router);
 
-  form: FormGroup;
+  readonly form = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
-  loading = signal(false);
-  showPassword = signal(false);
+  readonly loading = signal(false);
+  readonly showPassword = signal(false);
+  readonly message = signal<string | null>(null);
 
-  message = signal<{ ok: boolean; text: string } | null>(null);
-
-  roles = [
-    { value: 'CLIENT', label: 'Client' },
-    { value: 'SERVEUR', label: 'Serveur' },
-    { value: 'ADMIN', label: 'Admin' }
-  ];
-
-  constructor(private fb: FormBuilder) {
-
-    this.form = this.fb.group({
-      role: ['CLIENT', Validators.required],
-
-      email: ['', [
-        Validators.required,
-        Validators.email
-      ]],
-
-      password: ['', [
-        Validators.required,
-        Validators.minLength(6)
-      ]],
-
-      remember: [false]
-    });
-
-  }
-
-  invalid(field: string): boolean {
-    const control = this.form.get(field);
-
-    return !!control &&
-      control.invalid &&
-      (control.dirty || control.touched);
+  invalid(field: 'email' | 'password'): boolean {
+    const control = this.form.controls[field];
+    return control.invalid && (control.dirty || control.touched);
   }
 
   togglePassword(): void {
-    this.showPassword.update(value => !value);
+    this.showPassword.update((value) => !value);
   }
 
   submit(): void {
-
     this.message.set(null);
 
     if (this.form.invalid) {
@@ -73,8 +42,22 @@ export class Login {
       return;
     }
 
-    console.log('Données du formulaire :', this.form.value);
-
-    // La connexion à Spring Boot sera ajoutée ici.
+    this.loading.set(true);
+    this.auth.login(this.form.getRawValue()).subscribe({
+      next: (response) => {
+        sessionStorage.setItem('quickorder_token', response.token);
+        void this.router.navigateByUrl('/carte');
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading.set(false);
+        this.message.set(
+          error.status === 0
+            ? 'Impossible de joindre le serveur. Vérifiez que le backend est démarré.'
+            : error.status === 401 || error.status === 403
+              ? 'Email ou mot de passe incorrect.'
+              : 'La connexion est momentanément indisponible. Réessayez plus tard.',
+        );
+      },
+    });
   }
 }
