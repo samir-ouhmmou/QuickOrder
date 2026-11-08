@@ -10,6 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+
 @Service
 @AllArgsConstructor
 public class AuthService {
@@ -21,7 +24,7 @@ public LoginResponseDto login(LoginrequestDto loginrequestDto){
       if(!Boolean.TRUE.equals(utilisateur.getActif())){
           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email ou mot de passe incorrect");
       }
-      if(!passwordEncoder.matches(loginrequestDto.getPassword(),utilisateur.getMotDePass())){
+      if(!passwordMatches(utilisateur, loginrequestDto.getPassword())){
           throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Email ou mot de passe incorrect");
       }
       String token=jwtService.generateToken(utilisateur);
@@ -35,4 +38,26 @@ public LoginResponseDto login(LoginrequestDto loginrequestDto){
             utilisateur.getRole()
     );
    }
+
+    private boolean passwordMatches(Utilisateur utilisateur, String rawPassword) {
+        String storedPassword = utilisateur.getMotDePass();
+        if (storedPassword == null) {
+            return false;
+        }
+
+        if (storedPassword.matches("^\\$2[aby]\\$\\d{2}\\$[./A-Za-z0-9]{53}$")) {
+            return passwordEncoder.matches(rawPassword, storedPassword);
+        }
+
+        if (!MessageDigest.isEqual(
+                rawPassword.getBytes(StandardCharsets.UTF_8),
+                storedPassword.getBytes(StandardCharsets.UTF_8)
+        )) {
+            return false;
+        }
+
+        utilisateur.setMotDePass(passwordEncoder.encode(rawPassword));
+        utilisateurRepo.save(utilisateur);
+        return true;
+    }
 }
