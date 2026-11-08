@@ -1,5 +1,4 @@
-
-		package QuickOrder.Restauration;
+package QuickOrder.Restauration;
 
 import QuickOrder.Restauration.Model.Categorie;
 import QuickOrder.Restauration.Model.Plat;
