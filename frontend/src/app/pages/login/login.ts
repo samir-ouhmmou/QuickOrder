@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { Auth } from '../../services/auth';
+import { Auth } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +19,7 @@ export class Login {
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
+    remember: [false],
   });
 
   readonly loading = signal(false);
@@ -42,10 +43,11 @@ export class Login {
       return;
     }
 
+    const { email, password, remember } = this.form.getRawValue();
     this.loading.set(true);
-    this.auth.login(this.form.getRawValue()).subscribe({
-      next: (response) => {
-        sessionStorage.setItem('quickorder_token', response.token);
+    this.auth.login(email, password, remember).subscribe({
+      next: () => {
+        this.loading.set(false);
         void this.router.navigateByUrl('/carte');
       },
       error: (error: HttpErrorResponse) => {

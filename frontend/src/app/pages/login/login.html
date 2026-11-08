@@ -68,6 +68,11 @@
           }
         </div>
 
+        <label class="login__remember">
+          <input type="checkbox" formControlName="remember" />
+          <span>Rester connecté</span>
+        </label>
+
         @if (message(); as errorMessage) {
           <p class="login__error" role="alert">{{ errorMessage }}</p>
         }

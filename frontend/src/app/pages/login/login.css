@@ -401,6 +401,19 @@
   }
 }
 
+.login__remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 247, 238, 0.8);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.login__remember input {
+  accent-color: var(--login-gold);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
