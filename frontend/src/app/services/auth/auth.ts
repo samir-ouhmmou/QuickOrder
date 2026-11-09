@@ -25,6 +25,14 @@ export class Auth {
       .pipe(tap((response) => this.saveToken(response.token, remember)));
   }
 
+  googleLoginEnabled(): Observable<boolean> {
+    return this.http.get<boolean>(`${API_BASE_URL}/auth/google/enabled`);
+  }
+
+  completeGoogleLogin(token: string): void {
+    this.saveToken(token, false);
+  }
+
   getToken(): string | null {
     if (!isPlatformBrowser(this.platformId)) {
       return null;

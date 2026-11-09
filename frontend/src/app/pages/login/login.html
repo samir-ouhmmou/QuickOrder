@@ -20,8 +20,29 @@
       <header class="login__header">
         <p class="eyebrow">Heureux de vous revoir</p>
         <h2 id="login-title">Connexion</h2>
-        <p>Entrez vos identifiants pour continuer.</p>
+        @if (requiresLoginForCart) {
+          <p>Connectez-vous pour ajouter ce plat à votre panier.</p>
+        } @else {
+          <p>Entrez vos identifiants pour continuer.</p>
+        }
       </header>
+
+      @if (googleLoginError) {
+        <p class="login__error" role="alert">
+          La connexion Google a échoué. Vérifiez votre compte Google et réessayez.
+        </p>
+      }
+
+      <button class="login__google" type="button" (click)="startGoogleLogin()">
+        <svg aria-hidden="true" viewBox="0 0 48 48" width="20" height="20">
+          <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.5l6.7-6.7C35.6 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.8 6.1C12.3 13.6 17.6 9.5 24 9.5Z"/>
+          <path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.1 5.3-4.5 6.9l7.3 5.7c4.3-4 6.9-9.9 6.9-17.1Z"/>
+          <path fill="#FBBC05" d="M10.4 28.7a14.6 14.6 0 0 1 0-9.4l-7.8-6.1a24 24 0 0 0 0 21.6l7.8-6.1Z"/>
+          <path fill="#34A853" d="M24 48c6.5 0 12-2.1 16-6.4l-7.3-5.7c-2 1.4-4.7 2.3-8.7 2.3-6.4 0-11.7-4.1-13.6-9.8l-7.8 6.1C6.5 42.6 14.6 48 24 48Z"/>
+        </svg>
+        Continuer avec Google
+      </button>
+      <div class="login__divider"><span>ou avec votre email</span></div>
 
       <form class="login__form" [formGroup]="form" (ngSubmit)="submit()">
         <div class="field">

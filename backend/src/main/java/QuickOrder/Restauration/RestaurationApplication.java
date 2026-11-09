@@ -7,6 +7,7 @@ import QuickOrder.Restauration.Model.Role;
 import QuickOrder.Restauration.Repository.CategoryRepo;
 import QuickOrder.Restauration.Repository.ClientRepo;
 import QuickOrder.Restauration.Repository.PLatRepo;
+import QuickOrder.Restauration.Repository.UtilisateurRepo;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,17 +28,23 @@ public class RestaurationApplication {
 	@Bean
 	CommandLineRunner initDatabase(
 			CategoryRepo categoryRepo,
-			PLatRepo platRepo, ClientRepo clientRepo, PasswordEncoder passwordEncoder) {
+			PLatRepo platRepo,
+			ClientRepo clientRepo,
+			UtilisateurRepo utilisateurRepo,
+			PasswordEncoder passwordEncoder) {
 
 		return args -> {
-			Client client=new Client();
-			client.setPrenom("Taoufik");
-			client.setNom("Mansouri");
-			client.setEmail("taoufikmansouri@gmail.com");
-			client.setActif(true);
-			client.setRole(Role.ADMIN);
-			client.setMotDePass(passwordEncoder.encode("tofik2001"));
-			clientRepo.save(client);
+			String adminEmail = "taoufikmansouri@gmail.com";
+			if (!utilisateurRepo.existsByEmail(adminEmail)) {
+				Client client=new Client();
+				client.setPrenom("Taoufik");
+				client.setNom("Mansouri");
+				client.setEmail(adminEmail);
+				client.setActif(true);
+				client.setRole(Role.ADMIN);
+				client.setMotDePass(passwordEncoder.encode("tofik2001"));
+				clientRepo.save(client);
+			}
 			// Vérifier si les catégories existent déjà
 			if (categoryRepo.count() > 0) {
 				System.out.println("Les données existent déjà !");

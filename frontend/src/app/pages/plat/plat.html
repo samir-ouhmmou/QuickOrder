@@ -1,49 +1,57 @@
-<header class="topbar">
-  <a routerLink="/carte" class="retour">← La carte</a>
-  <span class="logo">JARDIN DORÉ</span>
-  <a routerLink="/panier" class="panier-btn">
-    <span>Panier</span>
-    <span class="badge">{{ panier().length }}</span>
-  </a>
-</header>
+<main class="menu-page">
+  <section class="page container">
+    <header class="hero">
+      <a routerLink="/carte" class="back-link">
+        <span aria-hidden="true">←</span>
+        Retour à la carte
+      </a>
+      <p class="eyebrow">Les saveurs du Maroc</p>
+      <h1>Nos <span>{{ categoryName() }}</span></h1>
+      <p class="subtitle">
+        Des recettes généreuses, préparées avec soin et pensées pour être partagées.
+      </p>
+      <a class="menu-cta" routerLink="/panier">
+        Voir mon panier
+        <span class="cart-count badge">{{ panier().length }}</span>
+      </a>
+    </header>
 
-<main class="contenu">
-  <p class="categorie">CATÉGORIE</p>
-  <h1>{{ categoryName() }}</h1>
-
-  <section class="grille" aria-live="polite">
-    @if (loading()) {
-      <p class="status">Chargement des plats...</p>
-    } @else if (errorMessage()) {
-      <p class="status error" role="alert">{{ errorMessage() }}</p>
-    } @else if (plats().length === 0) {
-      <p class="status">Aucun plat n'est disponible dans cette catégorie.</p>
-    } @else {
-      @for (plat of plats(); track plat.id) {
-        <article class="carte">
-          <div class="corps">
-            <div class="ligne">
-              <h2>{{ plat.nom }}</h2>
+    <section class="grid" aria-label="Plats de la catégorie" aria-live="polite">
+      @if (loading()) {
+        <p class="status">Chargement des plats...</p>
+      } @else if (errorMessage()) {
+        <p class="status error" role="alert">{{ errorMessage() }}</p>
+      } @else if (plats().length === 0) {
+        <p class="status">Aucun plat n'est disponible dans cette catégorie.</p>
+      } @else {
+        @for (plat of plats(); track plat.id) {
+          <article class="dish-card">
+            <div class="dish-card__image">
+              <img [src]="imageFor(plat.nom)" [alt]="plat.nom" loading="lazy" />
+              <span class="dish-card__label">Fait maison</span>
               @if (plat.prix !== null) {
                 <span class="prix">{{ plat.prix }} MAD</span>
               }
             </div>
-            @if (plat.description) {
-              <p>{{ plat.description }}</p>
-            }
-            @if (plat.disponible === false) {
-              <p class="indisponible">Indisponible</p>
-            } @else {
-              <button class="btn-ajout" (click)="ajouter(plat)">+ Ajouter au panier</button>
-            }
-          </div>
-        </article>
+            <div class="dish-card__body">
+              <h2>{{ plat.nom }}</h2>
+              @if (plat.description) {
+                <p class="description">{{ plat.description }}</p>
+              }
+              @if (plat.disponible === false) {
+                <p class="availability unavailable">Indisponible</p>
+              } @else {
+                <button class="btn-ajout" (click)="ajouter(plat)">+ Ajouter au panier</button>
+              }
+            </div>
+          </article>
+        }
       }
-    }
-  </section>
+    </section>
 
-  <div class="actions">
-    <a routerLink="/carte" class="btn-outline">Autres sous-catégories</a>
-    <a routerLink="/panier" class="btn-plein">Aller au panier</a>
-  </div>
+    <div class="actions">
+      <a routerLink="/carte" class="btn-outline">Autres catégories</a>
+      <a routerLink="/panier" class="btn-plein">Aller au panier</a>
+    </div>
+  </section>
 </main>
