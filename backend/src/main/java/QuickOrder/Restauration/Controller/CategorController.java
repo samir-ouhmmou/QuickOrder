@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CategorController {
     private CategorieService CategorieService;
-    @GetMapping
+    @GetMapping("/")
     public List<CategoryDto> getCategory(){
         List<CategoryDto> categories=new ArrayList<>();
         categories= CategorieService.getCategories();
