@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -15,10 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CategorController {
     private CategorieService CategorieService;
-    @GetMapping("/")
+    @GetMapping
     public List<CategoryDto> getCategory(){
-        List<CategoryDto> categories=new ArrayList<>();
-        categories= CategorieService.getCategories();
-        return categories;
+        return CategorieService.getCategories();
     }
 }

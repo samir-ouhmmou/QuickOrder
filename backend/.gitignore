@@ -3,7 +3,11 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-**/src/main/resources/
+
+# Local properties with secrets
+**/application-local.properties
+**/*.local.properties
+.env*
 
 
 ### STS ###

@@ -1,0 +1,10 @@
+# Exemple de configuration locale pour QuickOrder
+# Pour activer la connexion Google en développement local :
+# 1. Copiez ce fichier sous le nom "application-local.properties" dans le même dossier
+# 2. Renseignez vos identifiants obtenus sur Google Cloud Console
+#
+# Remarque : "application-local.properties" est ignoré par Git pour sécuriser vos clés secrètes.
+
+google.oauth.enabled=true
+google.oauth.client-id=VOTRE_CLIENT_ID_GOOGLE.apps.googleusercontent.com
+google.oauth.client-secret=VOTRE_CLIENT_SECRET_GOOGLE
