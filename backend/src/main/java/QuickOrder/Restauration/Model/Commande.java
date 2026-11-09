@@ -33,8 +33,8 @@ public class Commande {
     private TableRestaurant tableRestaurant;
 
     @ManyToOne
-    @JoinColumn(name = "utilisateur_id")
-    private Utilisateur utilisateur;
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @OneToMany(mappedBy = "commande")
     private List<Paiement> paiements;
