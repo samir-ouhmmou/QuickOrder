@@ -8,7 +8,7 @@
 
 ---
 
-## 🚀 Démarrage local
+## 🚀 Démarrage local sur notre machine
 
 Prérequis : Docker, Java 21 et Node.js.
 
