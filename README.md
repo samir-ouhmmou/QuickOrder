@@ -8,6 +8,18 @@
 
 ---
 
+## 🚀 Démarrage local
+
+Prérequis : Docker, Java 21 et Node.js.
+
+1. Démarrer PostgreSQL depuis la racine du projet : `docker compose up -d postgres`
+2. Dans `backend`, lancer l'API : `.\mvnw.cmd spring-boot:run` (port `8081`)
+3. Dans `frontend`, installer les dépendances si nécessaire avec `npm.cmd install`, puis lancer `npm.cmd start` (port `4200`)
+
+Les paramètres PostgreSQL locaux correspondent au service défini dans `docker-compose.yml`. Ils peuvent être remplacés avec `DB_URL`, `DB_USERNAME` et `DB_PASSWORD`. Définir `JWT_SECRET` avec une clé Base64 sécurisée hors développement local.
+
+---
+
 ## 📌 Présentation
 
 QuickOrder est une plateforme de commande et de livraison en ligne, conçue sur une **architecture événementielle en microservices**. Elle permet à un client de parcourir un catalogue, de passer une commande, de la payer, puis de suivre sa livraison en temps réel, tout en notifiant chaque acteur à chaque étape.

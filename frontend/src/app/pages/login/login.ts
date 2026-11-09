@@ -1,11 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../services/auth/auth';
 
@@ -17,42 +12,30 @@ import { Auth } from '../../services/auth/auth';
   styleUrl: './login.css',
 })
 export class Login {
+  private readonly fb = inject(FormBuilder);
   private readonly auth = inject(Auth);
   private readonly router = inject(Router);
 
-  form: FormGroup;
+  readonly form = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    remember: [false],
+  });
 
-  loading = signal(false);
-  showPassword = signal(false);
+  readonly loading = signal(false);
+  readonly showPassword = signal(false);
+  readonly message = signal<string | null>(null);
 
-  message = signal<{ ok: boolean; text: string } | null>(null);
-
-  roles = [
-    { value: 'CLIENT', label: 'Client' },
-    { value: 'SERVEUR', label: 'Serveur' },
-    { value: 'ADMIN', label: 'Admin' },
-  ];
-
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      role: ['CLIENT', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      remember: [false],
-    });
-  }
-
-  invalid(field: string): boolean {
-    const control = this.form.get(field);
-
-    return !!control && control.invalid && (control.dirty || control.touched);
+  invalid(field: 'email' | 'password'): boolean {
+    const control = this.form.controls[field];
+    return control.invalid && (control.dirty || control.touched);
   }
 
   togglePassword(): void {
     this.showPassword.update((value) => !value);
   }
 
-  onSubmit(): void {
+  submit(): void {
     this.message.set(null);
 
     if (this.form.invalid) {
@@ -65,18 +48,17 @@ export class Login {
     this.auth.login(email, password, remember).subscribe({
       next: () => {
         this.loading.set(false);
-        this.message.set({ ok: true, text: 'Connexion réussie.' });
-        void this.router.navigateByUrl('/');
+        void this.router.navigateByUrl('/carte');
       },
       error: (error: HttpErrorResponse) => {
         this.loading.set(false);
-        this.message.set({
-          ok: false,
-          text:
-            error.status === 0
-              ? 'Le serveur est inaccessible. Vérifiez que le backend est démarré.'
-              : 'Connexion impossible. Vérifiez vos identifiants et réessayez.',
-        });
+        this.message.set(
+          error.status === 0
+            ? 'Impossible de joindre le serveur. Vérifiez que le backend est démarré.'
+            : error.status === 401 || error.status === 403
+              ? 'Email ou mot de passe incorrect.'
+              : 'La connexion est momentanément indisponible. Réessayez plus tard.',
+        );
       },
     });
   }

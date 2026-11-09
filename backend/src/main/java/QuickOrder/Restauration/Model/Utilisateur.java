@@ -12,6 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur {
 
     @Id
@@ -30,8 +31,6 @@ public class Utilisateur {
 
     private Boolean actif;
 
-    @OneToMany(mappedBy = "utilisateur")
-    private List<Commande> commandes;
 
     @OneToMany(mappedBy = "utilisateur")
     private List<MouvementStock> mouvementStocks;
