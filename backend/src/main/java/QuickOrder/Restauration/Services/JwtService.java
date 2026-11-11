@@ -1,3 +1,4 @@
+
 package QuickOrder.Restauration.Services;
 
 import QuickOrder.Restauration.Model.Utilisateur;
@@ -24,16 +25,19 @@ public class JwtService {
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.expiration}") long expiration) {
 
-        this.signingKey = Keys.hmacShaKeyFor(
-                Decoders.BASE64.decode(secret)
-        );
+        byte[] keyBytes = Decoders.BASE64.decode(secret);
 
+        if (keyBytes.length < 32) {
+            throw new IllegalArgumentException(
+                "JWT secret must contain at least 32 bytes."
+            );
+        }
+
+        this.signingKey = Keys.hmacShaKeyFor(keyBytes);
         this.expiration = expiration;
     }
 
-    // Générer un token pour un utilisateur
     public String generateToken(Utilisateur utilisateur) {
-
         Map<String, Object> claims = new HashMap<>();
 
         claims.put("id", utilisateur.getId());
@@ -48,12 +52,10 @@ public class JwtService {
                 .compact();
     }
 
-    // Extraire l'email depuis le token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Extraire une information particulière du token
     public <T> T extractClaim(
             String token,
             Function<Claims, T> claimsResolver) {
@@ -62,9 +64,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    // Lire et vérifier le token
     private Claims extractAllClaims(String token) {
-
         return Jwts.parser()
                 .verifyWith(signingKey)
                 .build()
@@ -72,9 +72,7 @@ public class JwtService {
                 .getPayload();
     }
 
-    // Vérifier si le token est encore valide
     public boolean isTokenValid(String token, Utilisateur utilisateur) {
-
         String email = extractUsername(token);
 
         return email.equals(utilisateur.getEmail())

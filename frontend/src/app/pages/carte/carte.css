@@ -1,9 +1,28 @@
 :host {
+<<<<<<< ours
+  --bg-dark: #1a120d;
+  --bg-panel: #2a1d15;
+  --card: #3b271c;
+  --card-alt: #4a2d1e;
+  --primary: #d9824b;
+  --primary-deep: #b95d2b;
+  --cream: #f4ead8;
+  --text: #f5efe7;
+  --muted: #d4c4b5;
+  --border: rgba(255, 255, 255, 0.12);
+
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #221812 0%, #1a120d 100%);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+=======
   display: block;
   min-height: 100vh;
   background:
     radial-gradient(ellipse at 50% 0, rgba(217, 130, 75, 0.13), transparent 34rem),
     var(--color-dark);
+>>>>>>> theirs
 }
 
 .page {
@@ -11,6 +30,55 @@
   padding-bottom: 6rem;
 }
 
+<<<<<<< ours
+/* ---------- Header ---------- */
+.topbar {
+  border-bottom: 1px solid var(--border);
+  background: rgba(26, 18, 13, 0.92);
+  backdrop-filter: blur(8px);
+}
+.topbar-inner {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+.back {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--text); font-size: 12px; font-weight: 600;
+}
+.logo {
+  font-family: 'Outfit', sans-serif;
+  color: var(--primary);
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+}
+.right { display: flex; justify-content: flex-end; }
+.cart {
+  display: flex; align-items: center; gap: 8px;
+  color: var(--text); font-size: 12px; font-weight: 600;
+  border: 1px solid var(--border); border-radius: 999px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px 14px;
+}
+
+/* ---------- Hero ---------- */
+.page { max-width: 920px; margin: 0 auto; padding: 56px 16px 96px; }
+.hero { text-align: center; margin-bottom: 56px; }
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--primary);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.35em; text-transform: uppercase;
+}
+h1 {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  color: var(--cream);
+  font-size: 48px; font-weight: 700; letter-spacing: -0.02em;
+=======
 .hero {
   max-width: 720px;
   margin: 0 auto clamp(3rem, 7vw, 5rem);
@@ -62,6 +130,7 @@
 
 .menu-cta:hover span {
   transform: translateY(3px);
+>>>>>>> theirs
 }
 
 .grid {
@@ -76,6 +145,21 @@
   color: rgba(255, 255, 255, 0.74);
   text-align: center;
 }
+<<<<<<< ours
+.error { color: #f3b1a5; }
+.card {
+  display: block;
+  background: linear-gradient(180deg, var(--card) 0%, var(--card-alt) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+=======
 
 .error {
   color: #ffaaa0;
@@ -107,11 +191,17 @@
 .menu-cta:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 4px;
+>>>>>>> theirs
 }
 
 .card-img {
   position: relative;
+<<<<<<< ours
+  aspect-ratio: 1.66 / 1;
+  background: #d9c59d;
+=======
   aspect-ratio: 1.45 / 1;
+>>>>>>> theirs
   overflow: hidden;
   background: #302319;
 }
@@ -136,6 +226,13 @@
 }
 
 .badge {
+<<<<<<< ours
+  position: absolute; right: 10px; bottom: 10px;
+  background: rgba(217, 130, 75, 0.95);
+  color: #1a120d;
+  font-size: 10px; font-weight: 800;
+  padding: 4px 10px; border-radius: 999px;
+=======
   position: absolute;
   z-index: 1;
   right: 0.9rem;
@@ -170,6 +267,7 @@
 .card:hover .card-img__arrow {
   opacity: 1;
   transform: translate(0);
+>>>>>>> theirs
 }
 
 .card-body {
@@ -179,13 +277,33 @@
   gap: 1rem;
   padding: 1.3rem 1.4rem 1.5rem;
 }
+<<<<<<< ours
+.card-body h3 {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  color: var(--cream);
+  font-size: 17px; font-weight: 600;
+=======
 
 .card-body h2 {
   font-family: var(--font-title);
   font-size: 1.3rem;
+>>>>>>> theirs
 }
 
 .description {
+<<<<<<< ours
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.arrow {
+  width: 32px; height: 32px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--primary); color: var(--bg-dark);
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+=======
   margin-top: 0.45rem;
   color: rgba(255, 255, 255, 0.66);
   font-size: 0.85rem;
@@ -220,6 +338,7 @@
 
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+>>>>>>> theirs
 }
 
 @media (max-width: 560px) {
