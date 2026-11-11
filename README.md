@@ -8,6 +8,24 @@
 
 ---
 
+## 🚀 Démarrage local sur notre machine
+
+Prérequis : Docker, Java 21 et Node.js.
+
+1. Démarrer PostgreSQL depuis la racine du projet : `docker compose up -d postgres`
+2. Dans `backend`, lancer l'API : `.\mvnw.cmd spring-boot:run` (port `8081`)
+3. Dans `frontend`, installer les dépendances si nécessaire avec `npm.cmd install`, puis lancer `npm.cmd start` (port `4200`)
+
+Les paramètres PostgreSQL locaux correspondent au service défini dans `docker-compose.yml`. Ils peuvent être remplacés avec `DB_URL`, `DB_USERNAME` et `DB_PASSWORD`. Définir `JWT_SECRET` avec une clé Base64 sécurisée hors développement local.
+
+### Connexion Google (optionnelle)
+
+La connexion Google est désactivée par défaut. Pour l'activer, créez un client OAuth 2.0 de type application Web dans Google Cloud Console et ajoutez `http://localhost:8081/login/oauth2/code/google` comme URI de redirection autorisée. Configurez ensuite `GOOGLE_OAUTH_ENABLED=true`, `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` dans l'environnement du backend, puis redémarrez-le. Le secret doit rester uniquement dans l'environnement du backend et ne doit jamais être ajouté au dépôt ni au frontend. `FRONTEND_BASE_URL` permet de remplacer l'adresse Angular locale (`http://localhost:4200`) en production.
+
+Lors de sa première connexion Google avec une adresse vérifiée, un compte client QuickOrder est créé automatiquement. Les connexions par email et mot de passe restent disponibles.
+
+---
+
 ## 📌 Présentation
 
 QuickOrder est une plateforme de commande et de livraison en ligne, conçue sur une **architecture événementielle en microservices**. Elle permet à un client de parcourir un catalogue, de passer une commande, de la payer, puis de suivre sa livraison en temps réel, tout en notifiant chaque acteur à chaque étape.
@@ -78,3 +96,15 @@ Les pipelines **GitHub Actions** et **Jenkins** automatisent l'ensemble de la ch
 **CI/CD & qualité** : GitHub Actions, Jenkins, JUnit, Testcontainers, SonarQube, Trivy, DockerHub
 **Supervision** : Prometheus, Grafana
 **Gestion de projet** : Jira, Scrum, GitFlow
+
+## 🔌 Connexion du frontend au backend
+
+En développement, le frontend Angular utilise l'API Spring Boot à `http://localhost:8081/api`.
+Démarrez PostgreSQL et le backend (port `8081`), puis le frontend (`npm start`, port `4200`).
+Le backend doit disposer de `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` et d'un `JWT_SECRET` Base64
+valide; `CORS_ALLOWED_ORIGINS` permet de remplacer les origines Angular autorisées par défaut
+(`http://localhost:4200,http://127.0.0.1:4200`).
+
+La consultation des catégories et des plats est publique. La connexion se fait par
+`POST /api/auth/login`; les requêtes vers les autres endpoints transmettent ensuite le jeton
+JWT dans l'en-tête `Authorization: Bearer ...`.

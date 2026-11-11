@@ -3,7 +3,6 @@ package QuickOrder.Restauration.Controller;
 import QuickOrder.Restauration.Dto.PlatDto;
 import QuickOrder.Restauration.Repository.PLatRepo;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/plats")
-@CrossOrigin("*")
 @AllArgsConstructor
 public class PlatController {
     private PLatRepo platRepo;

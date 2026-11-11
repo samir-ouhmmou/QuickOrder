@@ -1,3 +1,16 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5434,
+            "driver": "PostgreSQL",
+            "name": "quikorder",
+            "database": "quikorder",
+            "username": "quikorder",
+            "password": "quikorder"
+        }
+    ]
 }
