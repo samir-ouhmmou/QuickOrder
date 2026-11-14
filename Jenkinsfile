@@ -5,6 +5,9 @@ pipeline {
     tools {
         nodejs 'NodeJS-22'
     }
+    triggers {
+        pollSCM('H/3 * * * *')
+    }
 
     stages {
 
