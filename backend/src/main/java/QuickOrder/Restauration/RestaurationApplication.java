@@ -1,9 +1,7 @@
 package QuickOrder.Restauration;
 
 import QuickOrder.Restauration.Model.Categorie;
-import QuickOrder.Restauration.Model.Client;
 import QuickOrder.Restauration.Model.Plat;
-import QuickOrder.Restauration.Model.Role;
 import QuickOrder.Restauration.Repository.CategoryRepo;
 import QuickOrder.Restauration.Repository.ClientRepo;
 import QuickOrder.Restauration.Repository.PLatRepo;
@@ -26,23 +24,10 @@ public class RestaurationApplication {
 	@Bean
 	CommandLineRunner initDatabase(
 			CategoryRepo categoryRepo,
-			PLatRepo platRepo,
-			ClientRepo clientRepo,
-			UtilisateurRepo utilisateurRepo,
-			PasswordEncoder passwordEncoder) {
+			PLatRepo platRepo) {
 
 		return args -> {
-			String adminEmail = "taoufikmansouri@gmail.com";
-			if (!utilisateurRepo.existsByEmail(adminEmail)) {
-				Client client=new Client();
-				client.setPrenom("Taoufik");
-				client.setNom("Mansouri");
-				client.setEmail(adminEmail);
-				client.setActif(true);
-				client.setRole(Role.ADMIN);
-				client.setMotDePass(passwordEncoder.encode("tofik2001"));
-				clientRepo.save(client);
-			}
+
 			// Vérifier si les catégories existent déjà
 			if (categoryRepo.count() > 0) {
 				System.out.println("Les données existent déjà !");
