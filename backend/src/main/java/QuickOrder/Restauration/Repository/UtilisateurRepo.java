@@ -1,5 +1,6 @@
 package QuickOrder.Restauration.Repository;
 
+import QuickOrder.Restauration.Model.Role;
 import QuickOrder.Restauration.Model.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,4 +11,5 @@ import java.util.Optional;
 public interface UtilisateurRepo extends JpaRepository<Utilisateur,Long> {
     Optional<Utilisateur> findByEmail(String email);
     boolean existsByEmail(String email);
+    boolean existsByRole(Role role);
 }
