@@ -1,25 +1,33 @@
 pipeline {
 
     agent any
-    
+
     tools {
-        maven 'Maven-3.10.0' 
         nodejs 'NodeJS-22'
     }
-    
+
     stages {
 
         stage('Checkout') {
             steps {
-                echo 'Recuperation du code depuis GitHub'
                 checkout scm
+            }
+        }
+
+        stage('Check Environment') {
+            steps {
+                sh '''
+                    java -version
+                    mvn -version
+                    node -v
+                    npm -v
+                '''
             }
         }
 
         stage('Backend - Build') {
             steps {
                 dir('backend') {
-                    echo 'Compilation du backend Spring Boot'
                     sh 'mvn clean package -DskipTests'
                 }
             }
@@ -28,7 +36,6 @@ pipeline {
         stage('Frontend - Install Dependencies') {
             steps {
                 dir('frontend') {
-                    echo 'Installation des dependances Angular'
                     sh 'npm ci'
                 }
             }
@@ -37,7 +44,6 @@ pipeline {
         stage('Frontend - Build') {
             steps {
                 dir('frontend') {
-                    echo 'Compilation du frontend Angular'
                     sh 'npm run build'
                 }
             }
@@ -46,15 +52,11 @@ pipeline {
 
     post {
         success {
-            echo 'CI SUCCESS : Backend et Frontend compiles avec succes !'
+            echo 'CI SUCCESS : Backend et Frontend compiles !'
         }
 
         failure {
             echo 'CI FAILURE : Une erreur est survenue !'
-        }
-
-        always {
-            echo 'Fin du pipeline Jenkins'
         }
     }
 }
