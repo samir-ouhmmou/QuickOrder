@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-
+import {JwtTest} from './features/jwt-test/jwt-test';
 import { Home } from './pages/home/home';
 import { Carte } from './pages/carte/carte';
 import { Plats } from './pages/plat/plat';
@@ -27,6 +27,10 @@ export const routes: Routes = [
   {
     path: 'auth/callback',
     component: GoogleCallback,
+  },
+  {
+    path: 'jwt-test',
+    component: JwtTest
   },
   {
     path: '**',

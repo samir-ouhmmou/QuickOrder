@@ -1,0 +1,29 @@
+<div class="container">
+
+  <h1>QuickOrder - JWT Security Tests</h1>
+
+  <div class="card">
+    <h2>Tests d'authentification</h2>
+
+    <button (click)="testValidToken()">
+      Tester JWT valide
+    </button>
+
+    <button (click)="testInvalidToken()">
+      Tester JWT invalide
+    </button>
+
+    <button (click)="testWithoutToken()">
+      Tester sans JWT
+    </button>
+  </div>
+
+  <div class="card result" *ngIf="result">
+    <h2>Résultat</h2>
+
+    <p [class.success]="success" [class.error]="!success">
+      {{ result }}
+    </p>
+  </div>
+
+</div>

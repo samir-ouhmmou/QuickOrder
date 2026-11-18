@@ -1,0 +1,32 @@
+.container {
+  max-width: 750px;
+  margin: 50px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.card {
+  padding: 25px;
+  margin-bottom: 20px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+button {
+  padding: 12px 20px;
+  margin: 8px;
+  border: none;
+  border-radius: 6px;
+  background: #173b65;
+  color: white;
+  cursor: pointer;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
