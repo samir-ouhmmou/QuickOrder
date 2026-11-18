@@ -5,6 +5,7 @@ import { Carte } from './pages/carte/carte';
 import { Plats } from './pages/plat/plat';
 import { Login } from './pages/login/login';
 import { GoogleCallback } from './pages/login/google-callback';
+import { Restaurant } from './pages/restaurant/restaurant';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,10 @@ export const routes: Routes = [
   {
     path: 'login',
     component: Login,
+  },
+  {
+    path: 'restaurant',
+    component: Restaurant,
   },
   {
     path: 'auth/callback',
