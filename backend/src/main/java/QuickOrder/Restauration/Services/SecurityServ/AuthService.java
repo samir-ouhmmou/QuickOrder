@@ -1,4 +1,4 @@
-package QuickOrder.Restauration.Services;
+package QuickOrder.Restauration.Services.SecurityServ;
 
 import QuickOrder.Restauration.Dto.LoginResponseDto;
 import QuickOrder.Restauration.Dto.LoginrequestDto;

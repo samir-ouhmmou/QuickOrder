@@ -2,7 +2,7 @@ package QuickOrder.Restauration.Controller;
 
 import QuickOrder.Restauration.Dto.LoginResponseDto;
 import QuickOrder.Restauration.Dto.LoginrequestDto;
-import QuickOrder.Restauration.Services.AuthService;
+import QuickOrder.Restauration.Services.SecurityServ.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;

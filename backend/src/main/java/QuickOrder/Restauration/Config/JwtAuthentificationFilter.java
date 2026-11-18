@@ -2,7 +2,7 @@ package QuickOrder.Restauration.Config;
 
 import QuickOrder.Restauration.Model.Utilisateur;
 import QuickOrder.Restauration.Repository.UtilisateurRepo;
-import QuickOrder.Restauration.Services.JwtService;
+import QuickOrder.Restauration.Services.SecurityServ.JwtService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

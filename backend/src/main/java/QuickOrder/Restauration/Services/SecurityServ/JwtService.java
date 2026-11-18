@@ -1,4 +1,4 @@
-package QuickOrder.Restauration.Services;
+package QuickOrder.Restauration.Services.SecurityServ;
 
 import QuickOrder.Restauration.Model.Utilisateur;
 import io.jsonwebtoken.Claims;
