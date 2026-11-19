@@ -10,12 +10,15 @@ target/
 .env*
 
 
+<<<<<<< HEAD
 # Local properties with secrets
 **/application-local.properties
 **/*.local.properties
 .env*
 
 
+=======
+>>>>>>> origin/athman
 ### STS ###
 .apt_generated
 .classpath
