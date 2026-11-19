@@ -23,34 +23,12 @@ public class JwtService {
     public JwtService(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.expiration}") long expiration) {
-        if(secret == null || secret.isBlank()){
-            throw new IllegalStateException(
-                    "JWT_SECRET est obligatoire . Configuration une clé secret ."
-            );
 
-        }
-        if(expiration<=0){
-            throw new IllegalStateException(
-                    " JWT.expiration doit etre strictement positive."
-            );
-        }
-        byte[] keyBytes;
-        try{
-            keyBytes=Decoders.BASE64.decode(secret.trim());
+        this.signingKey = Keys.hmacShaKeyFor(
+                Decoders.BASE64.decode(secret)
+        );
 
-        }catch (RuntimeException exception){
-            throw new IllegalStateException("JWT_SECRET doit etre une clé Base64 validé . ",exception);
-
-        }
-        if(keyBytes.length<32){
-            throw  new IllegalStateException("JWT_SECRET doit contenir au minimum 32 octest");
-        }
-        try{
-              this.signingKey=Keys.hmacShaKeyFor(keyBytes);
-        }catch (RuntimeException e){
-            throw  new RuntimeException("Impossible de creer la clé cryptographique JWT.",e);
-        }
-        this.expiration=expiration;
+        this.expiration = expiration;
     }
 
     // Générer un token pour un utilisateur
@@ -95,17 +73,11 @@ public class JwtService {
     }
 
     // Vérifier si le token est encore valide
-    public boolean isTokenValid(String token, Utilisateur utilisateur)
-    {
-        try{
-            Claims claims=extractAllClaims(token);
-            String email=claims.getSubject();
-            Date expirationDate=claims.getExpiration();
+    public boolean isTokenValid(String token, Utilisateur utilisateur) {
 
-            return email!=null && email.equals(utilisateur.getEmail())&& expirationDate != null && expirationDate.after(new Date());
+        String email = extractUsername(token);
 
-        }catch (Exception e){
-                return false;
-        }
+        return email.equals(utilisateur.getEmail())
+                && extractAllClaims(token).getExpiration().after(new Date());
     }
 }

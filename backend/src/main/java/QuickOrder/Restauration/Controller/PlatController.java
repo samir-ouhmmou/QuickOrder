@@ -1,12 +1,13 @@
+
 package QuickOrder.Restauration.Controller;
 
 import QuickOrder.Restauration.Dto.PlatDto;
-import QuickOrder.Restauration.Repository.PLatRepo;
+import QuickOrder.Restauration.Services.platserviceinterface;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,18 +15,66 @@ import java.util.List;
 @RequestMapping("/api/plats")
 @AllArgsConstructor
 public class PlatController {
-    private PLatRepo platRepo;
 
+    private final platserviceinterface platService;
+
+    // Ajouter un plat
+    @PostMapping
+    public ResponseEntity<PlatDto> ajouterPlat(
+            @Valid @RequestBody PlatDto platDto) {
+
+        PlatDto platCree = platService.ajouterPlat(platDto);
+
+        return new ResponseEntity<>(platCree, HttpStatus.CREATED);
+    }
+
+    // Consulter tous les plats
     @GetMapping
-    public List<PlatDto> getPlatsByCategory(@RequestParam Long categoryId) {
-        return platRepo.findByCategorie_Id(categoryId).stream()
-                .map(plat -> new PlatDto(
-                        plat.getId(),
-                        plat.getNom(),
-                        plat.getDescription(),
-                        plat.getPrix(),
-                        plat.getDisponible()
-                ))
-                .toList();
+    public ResponseEntity<List<PlatDto>> consulterTousLesPlats() {
+
+        return ResponseEntity.ok(
+                platService.consulterTousLesPlats()
+        );
+    }
+
+    // Consulter un plat par son ID
+    @GetMapping("/{id}")
+    public ResponseEntity<PlatDto> consulterPlatParId(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                platService.consulterPlatParId(id)
+        );
+    }
+
+    // Consulter les plats d'une catégorie
+    @GetMapping("/categorie/{categorieId}")
+    public ResponseEntity<List<PlatDto>> consulterPlatsParCategorie(
+            @PathVariable Long categorieId) {
+
+        return ResponseEntity.ok(
+                platService.consulterPlatsParCategorie(categorieId)
+        );
+    }
+
+    // Modifier un plat
+    @PutMapping("/{id}")
+    public ResponseEntity<PlatDto> modifierPlat(
+            @PathVariable Long id,
+            @Valid @RequestBody PlatDto platDto) {
+
+        return ResponseEntity.ok(
+                platService.modifierPlat(id, platDto)
+        );
+    }
+
+    // Supprimer un plat
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> supprimerPlat(
+            @PathVariable Long id) {
+
+        platService.supprimerPlat(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
