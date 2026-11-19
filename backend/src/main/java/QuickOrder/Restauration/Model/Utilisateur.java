@@ -8,23 +8,30 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
+@Table(name = "utilisateur")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nom;
     private String prenom;
+    @Column(nullable = false,unique = true)
     private String email;
-    private String motDepass;
-    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private String motDePass;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
     private Boolean actif;
-    @OneToMany(mappedBy = "utilisateur")
-    private List<Commande> commandes;
+
+
     @OneToMany(mappedBy = "utilisateur")
     private List<MouvementStock> mouvementStocks;
-
 }

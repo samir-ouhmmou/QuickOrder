@@ -1,4 +1,4 @@
-package QuickOrder.Restauration.Model;
+﻿package QuickOrder.Restauration.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;

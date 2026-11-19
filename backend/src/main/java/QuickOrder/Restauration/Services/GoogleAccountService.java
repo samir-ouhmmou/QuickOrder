@@ -5,6 +5,7 @@ import QuickOrder.Restauration.Model.Role;
 import QuickOrder.Restauration.Model.Utilisateur;
 import QuickOrder.Restauration.Repository.ClientRepo;
 import QuickOrder.Restauration.Repository.UtilisateurRepo;
+import QuickOrder.Restauration.Services.SecurityServ.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
