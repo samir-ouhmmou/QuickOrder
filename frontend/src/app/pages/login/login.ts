@@ -90,10 +90,17 @@ export class Login {
     const { email, password, remember } = this.form.getRawValue();
     this.loading.set(true);
     this.auth.login(email, password, remember).subscribe({
-      next: () => {
-        this.loading.set(false);
-        void this.router.navigateByUrl(this.returnUrl());
-      },
+        next: () => {
+          this.loading.set(false);
+
+          const role = this.auth.currentRole();
+
+          if (role === 'ADMIN' || role === 'GERANT') {
+            void this.router.navigateByUrl(this.auth.homeUrl());
+          } else {
+            void this.router.navigateByUrl(this.returnUrl());
+          }
+        },
       error: (error: HttpErrorResponse) => {
         this.loading.set(false);
         this.message.set(

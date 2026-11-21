@@ -1,4 +1,4 @@
 package QuickOrder.Restauration.Services.Admin;
 
-public interface Admininter {
+public interface AdminCommandeServiceInter {
 }

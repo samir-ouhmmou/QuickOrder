@@ -1,0 +1,62 @@
+<app-page-header eyebrow="Vue d'ensemble" [title]="'Bonjour, ' + firstName"
+                 subtitle="Voici l'activité de Dar Dmana aujourd'hui." />
+
+@if (loading()) {
+<p class="note">Chargement des statistiques…</p>
+} @else if (error()) {
+<div class="card">
+  <p class="err">Impossible de charger les statistiques.</p>
+  <button class="btn" type="button" (click)="loadStats()">Réessayer</button>
+</div>
+} @else if (stats(); as s) {
+<section class="kpis">
+  <app-stat-card label="Total commandes" [value]="s.totalCommandes" />
+  <app-stat-card label="En attente" [value]="s.commandesEnAttente" hint="À traiter" />
+  <app-stat-card label="Clients" [value]="s.totalClients" />
+  <app-stat-card label="Plats" [value]="s.totalPlats" />
+  <app-stat-card label="Chiffre d'affaires"
+                 [value]="(s.chiffreAffaires | currency:'MAD':'symbol':'1.0-2') ?? ''" />
+</section>
+}
+
+<section class="row">
+  <div class="card">
+    <p class="eyebrow">30 derniers jours</p>
+    <h2>Commandes</h2>
+    <div class="chart" role="img" aria-label="Graphique des commandes">
+      @for (h of chart; track $index) { <span class="bar" [style.height.px]="h"></span> }
+    </div>
+    <p class="note">Données d'exemple.</p>
+  </div>
+
+  <div class="card">
+    <p class="eyebrow">Top du mois</p>
+    <h2>Plats les plus demandés</h2>
+    @for (p of topPlats; track p.name) {
+    <div class="dish">
+      <span class="dish__name">{{ p.name }}</span>
+      <div class="trk"><div class="fill" [style.width.%]="p.pct"></div></div>
+    </div>
+    }
+  </div>
+</section>
+
+<section class="card">
+  <p class="eyebrow">Récentes</p>
+  <h2>Dernières commandes</h2>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Client</th><th>Date</th><th>Total</th><th>Statut</th></tr></thead>
+      <tbody>
+      @for (c of commandes; track $index) {
+      <tr>
+        <td>{{ c.client }}</td>
+        <td>{{ c.date }}</td>
+        <td>{{ c.total }} MAD</td>
+        <td><span class="tag" [class]="'tag ' + statusClass(c.statut)">{{ c.statut }}</span></td>
+      </tr>
+      }
+      </tbody>
+    </table>
+  </div>
+</section>

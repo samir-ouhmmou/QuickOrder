@@ -1,0 +1,16 @@
+<div class="shell">
+  <app-sidebar />
+  <div class="main">
+    <header class="top">
+      <input type="search" placeholder="Rechercher une commande, un client…" aria-label="Recherche globale" />
+      <div class="user">
+        <span class="av" aria-hidden="true">{{ initial }}</span>
+        <div>
+          <div class="name">{{ name }}</div>
+          <div class="role">{{ roleLabel }}</div>
+        </div>
+      </div>
+    </header>
+    <main class="content"><router-outlet /></main>
+  </div>
+</div>
