@@ -32,6 +32,11 @@
           La connexion Google a échoué. Vérifiez votre compte Google et réessayez.
         </p>
       }
+      @if (accessDenied) {
+        <p class="login__error" role="alert">
+          Cette interface est réservée aux comptes gérant et administrateur.
+        </p>
+      }
 
       <button class="login__google" type="button" (click)="startGoogleLogin()">
         <svg aria-hidden="true" viewBox="0 0 48 48" width="20" height="20">

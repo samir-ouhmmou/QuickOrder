@@ -64,7 +64,7 @@ export class Auth {
       case 'ADMIN':
         return '/admin/dashboard';
       case 'GERANT':
-        return '/admin/commandes';
+        return '/gerant';
       default:
         return '/carte';
     }
@@ -73,6 +73,34 @@ export class Auth {
   isStaff(): boolean {
     const role = this.currentRole();
     return role === 'ADMIN' || role === 'GERANT';
+  }
+
+  getRole(): string | null {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const payload = token.split('.')[1];
+      if (!payload) {
+        return null;
+      }
+
+      const claims: unknown = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+      if (typeof claims === 'object' && claims !== null && 'role' in claims) {
+        const role = claims.role;
+        return typeof role === 'string' ? role.toUpperCase() : null;
+      }
+    } catch {
+      return null;
+    }
+
+    return null;
+  }
+
+  isManager(): boolean {
+    return ['ADMIN', 'GERANT'].includes(this.getRole() ?? '');
   }
 
   logout(): void {

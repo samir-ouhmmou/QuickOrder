@@ -91,6 +91,7 @@ public class platserviceimpli implements platserviceinterface {
         platExistant.setPrix(platDto.prix());
         platExistant.setDisponible(platDto.disponible());
         platExistant.setCategorie(categorie);
+        platExistant.setImageUrl(platDto.imageUrl());
 
         Plat platMisAJour = platRepo.save(platExistant);
         return mappers.fromPlat(platMisAJour);

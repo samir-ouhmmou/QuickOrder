@@ -21,6 +21,7 @@ export class Login {
   private readonly platformId = inject(PLATFORM_ID);
   readonly requiresLoginForCart = this.route.snapshot.queryParamMap.has('returnUrl');
   readonly googleLoginError = this.route.snapshot.queryParamMap.has('googleError');
+  readonly accessDenied = this.route.snapshot.queryParamMap.has('accessDenied');
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -90,17 +91,14 @@ export class Login {
     const { email, password, remember } = this.form.getRawValue();
     this.loading.set(true);
     this.auth.login(email, password, remember).subscribe({
-        next: () => {
-          this.loading.set(false);
-
-          const role = this.auth.currentRole();
-
-          if (role === 'ADMIN' || role === 'GERANT') {
-            void this.router.navigateByUrl(this.auth.homeUrl());
-          } else {
-            void this.router.navigateByUrl(this.returnUrl());
-          }
-        },
+      next: () => {
+        this.loading.set(false);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        const destination = returnUrl?.startsWith('/') && !returnUrl.startsWith('//')
+          ? this.returnUrl()
+          : this.auth.homeUrl();
+        void this.router.navigateByUrl(destination);
+      },
       error: (error: HttpErrorResponse) => {
         this.loading.set(false);
         this.message.set(
