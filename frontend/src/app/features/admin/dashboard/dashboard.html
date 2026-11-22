@@ -1,8 +1,8 @@
-<app-page-header eyebrow="Vue d'ensemble" [title]="'Bonjour, ' + firstName"
+<app-page-header eyebrow="Espace Admin" [title]="'Bonjour, ' + firstName"
                  subtitle="Voici l'activité de Dar Dmana aujourd'hui." />
 
 @if (loading()) {
-<p class="note">Chargement des statistiques…</p>
+<p class="note" role="status">Chargement des statistiques…</p>
 } @else if (error()) {
 <div class="card">
   <p class="err">Impossible de charger les statistiques.</p>
@@ -24,7 +24,9 @@
     <p class="eyebrow">30 derniers jours</p>
     <h2>Commandes</h2>
     <div class="chart" role="img" aria-label="Graphique des commandes">
-      @for (h of chart; track $index) { <span class="bar" [style.height.px]="h"></span> }
+      @for (h of chart; track $index) {
+      <span class="bar" [style.height.px]="h" [attr.title]="h + ' commandes'"></span>
+      }
     </div>
     <p class="note">Données d'exemple.</p>
   </div>
@@ -53,7 +55,7 @@
         <td>{{ c.client }}</td>
         <td>{{ c.date }}</td>
         <td>{{ c.total }} MAD</td>
-        <td><span class="tag" [class]="'tag ' + statusClass(c.statut)">{{ c.statut }}</span></td>
+        <td><span class="tag" [class]="statusClass(c.statut)">{{ c.statut }}</span></td>
       </tr>
       }
       </tbody>
