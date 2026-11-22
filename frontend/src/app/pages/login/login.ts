@@ -93,7 +93,11 @@ export class Login {
     this.auth.login(email, password, remember).subscribe({
       next: () => {
         this.loading.set(false);
-        void this.router.navigateByUrl(this.returnUrl());
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        const destination = returnUrl?.startsWith('/') && !returnUrl.startsWith('//')
+          ? this.returnUrl()
+          : this.auth.homeUrl();
+        void this.router.navigateByUrl(destination);
       },
       error: (error: HttpErrorResponse) => {
         this.loading.set(false);
