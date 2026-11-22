@@ -41,6 +41,34 @@ export class Auth {
     return localStorage.getItem('quickorder_token') ?? sessionStorage.getItem('quickorder_token');
   }
 
+  getRole(): string | null {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const payload = token.split('.')[1];
+      if (!payload) {
+        return null;
+      }
+
+      const claims: unknown = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+      if (typeof claims === 'object' && claims !== null && 'role' in claims) {
+        const role = claims.role;
+        return typeof role === 'string' ? role.toUpperCase() : null;
+      }
+    } catch {
+      return null;
+    }
+
+    return null;
+  }
+
+  isManager(): boolean {
+    return ['ADMIN', 'GERANT'].includes(this.getRole() ?? '');
+  }
+
   logout(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;

@@ -14,4 +14,5 @@ private String description;
 private Boolean active;
 private Boolean disponible;
 private Long nombresPlats;
+private String imageUrl;
 }

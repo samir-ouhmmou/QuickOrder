@@ -60,4 +60,14 @@ describe('Auth', () => {
     expect(localStorage.getItem('quickorder_token')).toBe('access-token');
     expect(sessionStorage.getItem('quickorder_token')).toBeNull();
   });
+
+  it('recognizes manager roles from the signed-in user token', () => {
+    const payload = btoa(JSON.stringify({ role: 'GERANT' }))
+      .replace(/=/g, '')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_');
+    localStorage.setItem('quickorder_token', `header.${payload}.signature`);
+
+    expect(service.isManager()).toBe(true);
+  });
 });

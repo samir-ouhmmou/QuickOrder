@@ -1,0 +1,205 @@
+<main class="manager-page">
+  <div class="manager-shell">
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">Dar Dmana · Espace professionnel</p>
+        <h1>Gestion du <span>restaurant</span></h1>
+        <p class="page-intro">Gérez votre carte, vos catégories et la disponibilité des plats.</p>
+      </div>
+      <a class="back-link" routerLink="/carte">Voir la carte publique <span aria-hidden="true">↗</span></a>
+    </header>
+
+    @if (feedback(); as notice) {
+      <div class="notice" [class.notice--error]="notice.kind === 'error'" [class.notice--success]="notice.kind === 'success'" role="status">
+        <span>{{ notice.text }}</span>
+        <button type="button" class="icon-button" aria-label="Fermer le message" (click)="dismissFeedback()">×</button>
+      </div>
+    }
+
+    <section class="summary" aria-label="Résumé du catalogue">
+      <article class="summary-card">
+        <span class="summary-icon" aria-hidden="true">▦</span>
+        <div><p>Catégories</p><strong>{{ categories().length }}</strong></div>
+      </article>
+      <article class="summary-card">
+        <span class="summary-icon" aria-hidden="true">✦</span>
+        <div><p>Plats au menu</p><strong>{{ plats().length }}</strong></div>
+      </article>
+      <article class="summary-card">
+        <span class="summary-icon summary-icon--green" aria-hidden="true">●</span>
+        <div><p>Plats disponibles</p><strong>{{ availablePlats() }}</strong></div>
+      </article>
+    </section>
+
+    <section class="workspace">
+      <div class="workspace-toolbar">
+        <div class="tabs" role="tablist" aria-label="Sections de gestion">
+          <button type="button" role="tab" [attr.aria-selected]="section() === 'categories'" [class.active]="section() === 'categories'" (click)="switchSection('categories')">
+            Catégories <span>{{ categories().length }}</span>
+          </button>
+          <button type="button" role="tab" [attr.aria-selected]="section() === 'plats'" [class.active]="section() === 'plats'" (click)="switchSection('plats')">
+            Plats <span>{{ plats().length }}</span>
+          </button>
+        </div>
+        <button class="primary-button" type="button" (click)="section() === 'categories' ? openNewCategory() : openNewPlat()">
+          <span aria-hidden="true">＋</span>
+          {{ section() === 'categories' ? 'Nouvelle catégorie' : 'Nouveau plat' }}
+        </button>
+      </div>
+
+      <div class="list-toolbar">
+        <label class="search-field">
+          <span class="sr-only">Rechercher</span>
+          <span aria-hidden="true">⌕</span>
+          <input type="search" placeholder="Rechercher par nom ou description..." [value]="search()" (input)="search.set($any($event.target).value)" />
+        </label>
+        @if (section() === 'plats') {
+          <label class="filter-field">
+            <span class="sr-only">Filtrer par catégorie</span>
+            <select [value]="categoryFilter() ?? ''" (change)="categoryFilter.set($any($event.target).value ? +$any($event.target).value : null)">
+              <option value="">Toutes les catégories</option>
+              @for (category of categories(); track category.id) {
+                <option [value]="category.id">{{ category.nom }}</option>
+              }
+            </select>
+          </label>
+        }
+      </div>
+
+      @if (section() === 'categories') {
+        <section class="catalog-list" role="tabpanel" aria-label="Liste des catégories">
+          @if (loadingCategories()) {
+            <p class="empty-state">Chargement des catégories…</p>
+          } @else if (filteredCategories().length === 0) {
+            <div class="empty-state"><strong>Aucune catégorie trouvée</strong><span>Essayez une autre recherche ou créez une catégorie.</span></div>
+          } @else {
+            @for (category of filteredCategories(); track category.id) {
+              <article class="catalog-row">
+                @if (category.imageUrl) {
+                  <img class="row-image" [src]="category.imageUrl" [alt]="category.nom" />
+                } @else {
+                  <div class="row-symbol row-symbol--category" aria-hidden="true">▦</div>
+                }
+                <div class="row-main">
+                  <div class="row-title"><h2>{{ category.nom }}</h2><span class="status-pill" [class.status-pill--off]="category.active === false">{{ category.active === false ? 'Inactive' : 'Active' }}</span></div>
+                  <p>{{ category.description || 'Aucune description' }}</p>
+                  <span class="row-meta">{{ category.nombresPlats ?? 0 }} plat{{ (category.nombresPlats ?? 0) === 1 ? '' : 's' }} · {{ category.disponible === false ? 'Masquée du menu' : 'Visible sur le menu' }}</span>
+                </div>
+                <div class="row-actions">
+                  <button type="button" class="secondary-button" (click)="openEditCategory(category)">Modifier</button>
+                  <button type="button" class="icon-button danger" [attr.aria-label]="'Supprimer ' + category.nom" (click)="askDelete('categories', category.id, category.nom)">⌫</button>
+                </div>
+              </article>
+            }
+          }
+        </section>
+      } @else {
+        <section class="catalog-list" role="tabpanel" aria-label="Liste des plats">
+          @if (loadingPlats() || loadingCategories()) {
+            <p class="empty-state">Chargement des plats…</p>
+          } @else if (filteredPlats().length === 0) {
+            <div class="empty-state"><strong>Aucun plat trouvé</strong><span>Essayez un autre filtre ou ajoutez un plat à votre carte.</span></div>
+          } @else {
+            @for (plat of filteredPlats(); track plat.id) {
+              <article class="catalog-row">
+                @if (plat.imageUrl) {
+                  <img class="row-image" [src]="plat.imageUrl" [alt]="plat.nom" />
+                } @else {
+                  <div class="row-symbol row-symbol--plat" aria-hidden="true">✦</div>
+                }
+                <div class="row-main">
+                  <div class="row-title"><h2>{{ plat.nom }}</h2><span class="status-pill" [class.status-pill--off]="plat.disponible === false">{{ plat.disponible === false ? 'Indisponible' : 'Disponible' }}</span></div>
+                  <p>{{ plat.description || 'Aucune description' }}</p>
+                  <span class="row-meta">{{ categoryName(plat.categorieId) }}</span>
+                </div>
+                <strong class="price">{{ plat.prix ?? 0 }} <small>MAD</small></strong>
+                <div class="row-actions">
+                  <button type="button" class="secondary-button" (click)="openEditPlat(plat)">Modifier</button>
+                  <button type="button" class="icon-button danger" [attr.aria-label]="'Supprimer ' + plat.nom" (click)="askDelete('plats', plat.id, plat.nom)">⌫</button>
+                </div>
+              </article>
+            }
+          }
+        </section>
+      }
+    </section>
+  </div>
+</main>
+
+@if (categoryDialogOpen()) {
+  <div class="dialog-backdrop" (click)="categoryDialogOpen.set(false)">
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="category-dialog-title" (click)="$event.stopPropagation()">
+      <header class="dialog-heading">
+        <div><p class="eyebrow">Organisation du menu</p><h2 id="category-dialog-title">{{ editingCategoryId() === null ? 'Créer une catégorie' : 'Modifier la catégorie' }}</h2></div>
+        <button class="icon-button" type="button" aria-label="Fermer" (click)="categoryDialogOpen.set(false)">×</button>
+      </header>
+      <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
+        <label class="form-field">Nom de la catégorie<input formControlName="nom" maxlength="80" placeholder="Ex. Entrées" /></label>
+        @if (categoryForm.controls.nom.invalid && categoryForm.controls.nom.touched) { <small class="field-error">Un nom (80 caractères maximum) est obligatoire.</small> }
+        <label class="form-field">Description<textarea formControlName="description" rows="3" maxlength="500" placeholder="Présentez cette famille de plats…"></textarea></label>
+        <label class="form-field image-field">
+          Image de la catégorie
+          <input type="file" accept="image/png,image/jpeg,image/webp" (change)="onCategoryImageSelected($event)" />
+        </label>
+        @if (categoryImageUrl(); as imageUrl) {
+          <div class="image-preview"><img [src]="imageUrl" alt="Aperçu de la catégorie" /></div>
+        }
+        <div class="toggle-list">
+          <label><input type="checkbox" formControlName="active" /> Catégorie active</label>
+          <label><input type="checkbox" formControlName="disponible" /> Visible sur le menu</label>
+        </div>
+        <footer class="dialog-actions">
+          <button class="secondary-button" type="button" (click)="categoryDialogOpen.set(false)">Annuler</button>
+          <button class="primary-button" type="submit" [disabled]="categorySubmitting()">{{ categorySubmitting() ? 'Enregistrement…' : 'Enregistrer' }}</button>
+        </footer>
+      </form>
+    </section>
+  </div>
+}
+
+@if (platDialogOpen()) {
+  <div class="dialog-backdrop" (click)="platDialogOpen.set(false)">
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="plat-dialog-title" (click)="$event.stopPropagation()">
+      <header class="dialog-heading">
+        <div><p class="eyebrow">Carte du restaurant</p><h2 id="plat-dialog-title">{{ editingPlatId() === null ? 'Ajouter un plat' : 'Modifier le plat' }}</h2></div>
+        <button class="icon-button" type="button" aria-label="Fermer" (click)="platDialogOpen.set(false)">×</button>
+      </header>
+      <form [formGroup]="platForm" (ngSubmit)="savePlat()">
+        <label class="form-field">Nom du plat<input formControlName="nom" maxlength="100" placeholder="Ex. Tajine de poulet" /></label>
+        @if (platForm.controls.nom.invalid && platForm.controls.nom.touched) { <small class="field-error">Un nom (100 caractères maximum) est obligatoire.</small> }
+        <label class="form-field">Description<textarea formControlName="description" rows="3" maxlength="500" placeholder="Ingrédients et présentation…"></textarea></label>
+        <label class="form-field image-field">
+          Image du plat
+          <input type="file" accept="image/png,image/jpeg,image/webp" (change)="onPlatImageSelected($event)" />
+        </label>
+        @if (platImageUrl(); as imageUrl) {
+          <div class="image-preview"><img [src]="imageUrl" alt="Aperçu du plat" /></div>
+        }
+        <div class="form-grid">
+          <label class="form-field">Prix (MAD)<input type="number" formControlName="prix" min="0.01" step="0.01" /></label>
+          <label class="form-field">Catégorie<select formControlName="categorieId">@for (category of categories(); track category.id) { <option [ngValue]="category.id">{{ category.nom }}</option> }</select></label>
+        </div>
+        @if (platForm.controls.prix.invalid && platForm.controls.prix.touched) { <small class="field-error">Le prix doit être supérieur à 0.</small> }
+        <div class="toggle-list"><label><input type="checkbox" formControlName="disponible" /> Disponible à la commande</label></div>
+        <footer class="dialog-actions">
+          <button class="secondary-button" type="button" (click)="platDialogOpen.set(false)">Annuler</button>
+          <button class="primary-button" type="submit" [disabled]="platSubmitting()">{{ platSubmitting() ? 'Enregistrement…' : 'Enregistrer' }}</button>
+        </footer>
+      </form>
+    </section>
+  </div>
+}
+
+@if (pendingDelete(); as pending) {
+  <div class="dialog-backdrop" (click)="pendingDelete.set(null)">
+    <section class="dialog confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="delete-title" (click)="$event.stopPropagation()">
+      <div class="confirm-icon" aria-hidden="true">!</div>
+      <h2 id="delete-title">Confirmer la suppression</h2>
+      <p>Voulez-vous vraiment supprimer <strong>{{ pending.name }}</strong> ? Cette action est définitive.</p>
+      <footer class="dialog-actions">
+        <button class="secondary-button" type="button" (click)="pendingDelete.set(null)">Annuler</button>
+        <button class="delete-button" type="button" (click)="confirmDelete()">Supprimer</button>
+      </footer>
+    </section>
+  </div>
+}

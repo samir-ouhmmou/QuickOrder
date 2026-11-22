@@ -18,6 +18,10 @@ Prérequis : Docker, Java 21 et Node.js.
 
 Les paramètres PostgreSQL locaux correspondent au service défini dans `docker-compose.yml`. Ils peuvent être remplacés avec `DB_URL`, `DB_USERNAME` et `DB_PASSWORD`. Définir `JWT_SECRET` avec une clé Base64 sécurisée hors développement local.
 
+Pour créer le compte gérant au prochain démarrage du backend, définir `MANAGER_EMAIL`, `MANAGER_PASSWORD`, `MANAGER_FIRST_NAME` et `MANAGER_LAST_NAME` dans l'environnement du backend. Le mot de passe est enregistré sous forme hachée. Ces valeurs ne doivent pas être ajoutées au dépôt. Si l'adresse correspond déjà à un compte gérant, l'initialiseur ne modifie pas son mot de passe.
+
+Pour réinitialiser uniquement le mot de passe d'un compte gérant existant, définir aussi `MANAGER_RESET_PASSWORD=true` avec `MANAGER_EMAIL` et `MANAGER_PASSWORD`, puis redémarrer le backend. Retirer ensuite `MANAGER_RESET_PASSWORD=true` après la création ou redémarrage.
+
 ### Connexion Google (optionnelle)
 
 La connexion Google est désactivée par défaut. Pour l'activer, créez un client OAuth 2.0 de type application Web dans Google Cloud Console et ajoutez `http://localhost:8081/login/oauth2/code/google` comme URI de redirection autorisée. Configurez ensuite `GOOGLE_OAUTH_ENABLED=true`, `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET` dans l'environnement du backend, puis redémarrez-le. Le secret doit rester uniquement dans l'environnement du backend et ne doit jamais être ajouté au dépôt ni au frontend. `FRONTEND_BASE_URL` permet de remplacer l'adresse Angular locale (`http://localhost:4200`) en production.

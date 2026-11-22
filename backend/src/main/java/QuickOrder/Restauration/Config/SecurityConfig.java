@@ -50,6 +50,16 @@ public class SecurityConfig {
                                         "/api/category", "/api/category/**",
                                         "/api/plats", "/api/plats/**"
                                 ).permitAll()
+                                .requestMatchers(
+                                        HttpMethod.POST, "/api/category", "/api/category/**",
+                                        "/api/plats", "/api/plats/**"
+                                ).hasAnyRole("ADMIN", "GERANT")
+                                .requestMatchers(
+                                        HttpMethod.PUT, "/api/category/**", "/api/plats/**"
+                                ).hasAnyRole("ADMIN", "GERANT")
+                                .requestMatchers(
+                                        HttpMethod.DELETE, "/api/category/**", "/api/plats/**"
+                                ).hasAnyRole("ADMIN", "GERANT")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(form->form.disable())

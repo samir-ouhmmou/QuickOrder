@@ -8,6 +8,7 @@ public record PlatDto(
         String description,
         BigDecimal prix,
         Boolean disponible,
-        Long categorieId
+        Long categorieId,
+        String imageUrl
 ) {
 }

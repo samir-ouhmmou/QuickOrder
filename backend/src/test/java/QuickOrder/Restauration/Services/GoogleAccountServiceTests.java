@@ -4,6 +4,7 @@ import QuickOrder.Restauration.Model.Client;
 import QuickOrder.Restauration.Model.Role;
 import QuickOrder.Restauration.Repository.ClientRepo;
 import QuickOrder.Restauration.Repository.UtilisateurRepo;
+import QuickOrder.Restauration.Services.SecurityServ.JwtService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

@@ -21,6 +21,7 @@ export class Login {
   private readonly platformId = inject(PLATFORM_ID);
   readonly requiresLoginForCart = this.route.snapshot.queryParamMap.has('returnUrl');
   readonly googleLoginError = this.route.snapshot.queryParamMap.has('googleError');
+  readonly accessDenied = this.route.snapshot.queryParamMap.has('accessDenied');
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

@@ -32,7 +32,8 @@ public class Mappers {
                 plat.getDescription(),
                 plat.getPrix(),
                 plat.getDisponible(),
-                plat.getCategorie() != null ? plat.getCategorie().getId() : null
+                plat.getCategorie() != null ? plat.getCategorie().getId() : null,
+                plat.getImageUrl()
         );
     }
 
@@ -43,6 +44,7 @@ public class Mappers {
         plat.setDescription(platDto.description());
         plat.setPrix(platDto.prix());
         plat.setDisponible(platDto.disponible());
+        plat.setImageUrl(platDto.imageUrl());
         return plat;
     }
 }

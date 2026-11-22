@@ -22,6 +22,8 @@ public class Plat {
     private String nom;
     private String description;
     private BigDecimal prix;
+    @Column(columnDefinition = "TEXT")
+    private String imageUrl;
 
     private Boolean disponible = true;
 

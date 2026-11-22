@@ -26,6 +26,8 @@ public class Categorie {
 
 
     private Boolean disponible;
+    @Column(columnDefinition = "TEXT")
+    private String imageUrl;
      @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 
     @OneToMany(mappedBy = "categorie")

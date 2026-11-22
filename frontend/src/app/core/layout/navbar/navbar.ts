@@ -1,5 +1,6 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Auth } from '../../../services/auth/auth';
 
 interface NavLink {
   label: string;
@@ -14,6 +15,7 @@ interface NavLink {
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  readonly auth = inject(Auth);
   scrolled = signal(false);
   menuOpen = signal(false);
 

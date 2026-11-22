@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { API_BASE_URL } from '../core/api';
-import { Auth } from './auth';
+import { Auth } from './auth/auth';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const token = inject(Auth).getToken();

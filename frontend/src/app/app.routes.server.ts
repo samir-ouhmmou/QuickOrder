@@ -10,6 +10,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client
   },
   {
+    path: 'gerant',
+    renderMode: RenderMode.Client
+  },
+  {
     path: 'plats/:categoryId',
     renderMode: RenderMode.Server
   },

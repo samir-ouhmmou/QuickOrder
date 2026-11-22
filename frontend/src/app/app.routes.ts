@@ -6,19 +6,10 @@ import { Plats } from './pages/plat/plat';
 import { Restaurant } from './pages/restaurant/restaurant';
 import { Login } from './pages/login/login';
 import { GoogleCallback } from './pages/login/google-callback';
-import { Restaurant } from './pages/restaurant/restaurant';
+import { Gerant } from './pages/gerant/gerant';
+import { managerGuard } from './services/auth/manager.guard';
 
 export const routes: Routes = [
-<<<<<<< HEAD
-  { path: '', component: Home, title: 'Dar Dmana | Authentic Moroccan Catering' },
-  { path: 'carte', component: Carte, title: 'Menus | Dar Dmana' },
-  { path: 'restaurant', component: Restaurant, title: 'Reserve a Table | Dar Dmana' },
-  { path: 'plats/:categoryId', component: Plats },
-  { path: 'login', component: Login },
-  { path: 'auth/callback', component: GoogleCallback },
-  { path: 'jwt-test', component: JwtTest },
-  { path: '**', redirectTo: '' },
-=======
   {
     path: '',
     component: Home,
@@ -27,6 +18,7 @@ export const routes: Routes = [
   {
     path: 'carte',
     component: Carte,
+    title: 'Menus | Dar Dmana',
   },
   {
     path: 'plats/:categoryId',
@@ -39,6 +31,13 @@ export const routes: Routes = [
   {
     path: 'restaurant',
     component: Restaurant,
+    title: 'Reserve a Table | Dar Dmana',
+  },
+  {
+    path: 'gerant',
+    component: Gerant,
+    canActivate: [managerGuard],
+    title: 'Gestion du restaurant | Dar Dmana',
   },
   {
     path: 'auth/callback',
@@ -46,11 +45,10 @@ export const routes: Routes = [
   },
   {
     path: 'jwt-test',
-    component: JwtTest
+    component: JwtTest,
   },
   {
     path: '**',
     redirectTo: '',
   },
->>>>>>> origin/main
 ];
